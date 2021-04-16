@@ -38,6 +38,12 @@ def post_users():
         print('400: no user_id provided')
         abort(400)
 
+    user_exists = User.query.get(user_id)
+
+    if user_exists:
+        print('422: user already exists')
+        abort(422)
+
     # TODO: delete
     print(user_dict)
 
@@ -51,13 +57,8 @@ def post_users():
         roles=body.get('roles')
     )
 
-    user_exists = User.query.get(user_id)
-
     try:
-        if user_exists:
-            user.update()
-        else:
-            user.insert()
+        user.insert()
     except Exception as e:
         print('POST /users EXCEPTION >>> ', e)
         abort(422)
