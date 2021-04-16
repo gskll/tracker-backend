@@ -7,7 +7,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 from .database.models import setup_db, Issue, Comment, User
-# from .auth.auth import AuthError, requires_auth
+from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
@@ -99,6 +99,23 @@ def get_issues():
     or appropriate status code indicating reason for failure
 '''
 
+
+@app.route('/issues/<id>', methods=['GET'])
+def get_issue(id):
+    issue = Issue.query.get(id)
+
+    if not issue:
+        print('No issue found')
+        abort(404)
+
+    issue = issue.format_with_comments()
+
+    return jsonify({
+        "success": True,
+        "issue": issue
+    })
+
+
 '''
   POST /issues
     it should create a new row in the issues table
@@ -107,6 +124,34 @@ def get_issues():
   returns status code 200 and json {"success": True, "issue": issue} where issue is the newly created issue
     or appropriate status code indicating reason for failure
 '''
+
+
+@app.route('/issues', methods=['POST'])
+def post_issue():
+    body = request.get_json()
+
+    for field in body.values():
+        if not field:
+            abort(400)
+
+    issue = Issue(
+        title=body.get('title'),
+        text=body.get('text'),
+        created_at=body.get('created_at'),
+        user_id=body.get('user_id')
+    )
+
+    try:
+        issue.insert()
+    except Exception as e:
+        print('POST /issues EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'issue': issue.format_no_comments()
+        })
+
 
 '''
   POST /comments

@@ -1,4 +1,5 @@
 import os
+import json
 from flask_sqlalchemy.model import Model
 from sqlalchemy import ARRAY, Column, String, Integer, Boolean, Text, DateTime, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
@@ -47,7 +48,7 @@ class Issue(db.Model):
     comments = db.relationship('Comment', backref='issue')
 
     def __repr__(self):
-        return f'<Issue #{self.id}: #{self.title}>'
+        return f'<Issue #{self.id}: {self.title}>'
 
     def insert(self):
         db.session.add(self)
@@ -67,15 +68,28 @@ class Issue(db.Model):
     '''
 
     def format_no_comments(self):
+        created_at = self.created_at
+        closed_at = self.closed_at
+        last_modified = self.last_modified
+
+        if created_at:
+            created_at = created_at.strftime("%m/%d/%Y, %H:%M:%S")
+
+        if closed_at:
+            closed_at = closed_at.strftime("%m/%d/%Y, %H:%M:%S")
+
+        if last_modified:
+            last_modified = last_modified.strftime("%m/%d/%Y, %H:%M:%S")
+
         return {
             'id': self.id,
             'title': self.title,
             'open': self.open,
             'text': self.text,
-            'created_at': self.created_at.strftime("%m/%d/%Y, %H:%M:%S"),
-            'closed_at': self.closed_at.strftime("%m/%d/%Y, %H:%M:%S"),
-            'last_modified': self.last_modified.strftime("%m/%d/%Y, %H:%M:%S"),
-            'user': self.user.format_short
+            'created_at': created_at,
+            'closed_at': closed_at,
+            'last_modified': last_modified,
+            'user': self.user.format_short()
         }
 
     '''
@@ -85,16 +99,29 @@ class Issue(db.Model):
     '''
 
     def format_with_comments(self):
+        created_at = self.created_at
+        closed_at = self.closed_at
+        last_modified = self.last_modified
+
+        if created_at:
+            created_at = created_at.strftime("%m/%d/%Y, %H:%M:%S")
+
+        if closed_at:
+            closed_at = closed_at.strftime("%m/%d/%Y, %H:%M:%S")
+
+        if last_modified:
+            last_modified = last_modified.strftime("%m/%d/%Y, %H:%M:%S")
+
         return {
             'id': self.id,
             'title': self.title,
             'open': self.open,
             'text': self.text,
-            'created_at': self.created_at.strftime("%m/%d/%Y, %H:%M:%S"),
-            'closed_at': self.closed_at.strftime("%m/%d/%Y, %H:%M:%S"),
-            'last_modified': self.last_modified.strftime("%m/%d/%Y, %H:%M:%S"),
-            'user': self.user.format_short,
-            'comments': self.comments.format
+            'created_at': created_at,
+            'closed_at': closed_at,
+            'last_modified': last_modified,
+            'user': self.user.format_short(),
+            'comments': {comment.id: comment.format() for comment in self.comments}
         }
 
 
@@ -120,7 +147,7 @@ class User(db.Model):
     comments = db.relationship('Comment', backref='user')
 
     def __repr__(self):
-        return f'<User #{self.username}>'
+        return f'<User {self.username}>'
 
     def insert(self):
         db.session.add(self)
@@ -170,7 +197,7 @@ class Comment(db.Model):
     issue_id = Column(Integer, ForeignKey('issues.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Comment #{self.id} by #{self.user} on issue #{self.issue_id}>'
+        return f'<Comment #{self.id} by {self.user} on issue {self.issue_id}>'
 
     def insert(self):
         db.session.add(self)
