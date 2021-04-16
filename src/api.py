@@ -31,8 +31,13 @@ def post_users():
 
     user_raw = body.get('user')
     user_json = json.dumps(user_raw)
-
+    print(user_raw)
     print(user_json)
+
+    return jsonify({
+        'success': True,
+        'user': user_json
+    })
 
     # drink = Drink(title=body.get('title'), recipe=recipe_json)
 
