@@ -2,7 +2,7 @@ import os
 from flask_sqlalchemy.model import Model
 from sqlalchemy import Column, String, Integer, Boolean, Text, DateTime, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -20,7 +20,7 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    migrate = Migrate(app, db)
+    # migrate = Migrate(app, db)
 
 
 '''
