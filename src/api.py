@@ -4,6 +4,8 @@ from sqlalchemy import exc
 import json
 from flask_cors import CORS
 
+from datetime import datetime
+
 from .database.models import setup_db, Issue, Comment, User
 # from .auth.auth import AuthError, requires_auth
 
@@ -32,18 +34,23 @@ def post_users():
     user_raw = body.get('user')
 
     print(user_raw)
-    print(user_raw.get('id'))
-    print(user_raw['id'])
+    print(user_raw.get('user_id'))
+    print(user_raw['user_id'])
 
     # user = User(
-    #   id=user_raw['user_id'],
-    #   username=user_raw['']
+    #     id=user_raw['user_id'],
+    #     username=user_raw['nickname'],
+    #     name=user_raw['name'],
+    #     email=user_raw['email'],
+    #     date_joined=datetime.now(),
+    #     last_login=datetime.now(),
+
     # )
 
     # print(user)
     return jsonify({
         'success': True,
-        'user': user
+        'user': user,
     })
 
     # drink = Drink(title=body.get('title'), recipe=recipe_json)
