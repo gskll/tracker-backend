@@ -31,21 +31,29 @@ def post_users():
         if not field:
             abort(400)
 
-    user_raw = body.get('user')
+    user_dict = body.get('user')
+    user_id = user_dict.get('user_id')
 
-    if not user_raw.get('user_id'):
+    if not user_id:
+        print('400: no user_id provided')
         abort(400)
 
-    print(user_raw)
-    print(user_raw.get('user_id'))
+    user_exists = User.query.get(user_id)
+
+    if user_exists:
+        print('422: user already exists')
+        abort(422)
+
+    # TODO: delete
+    print(user_dict)
 
     user = User(
-        id=user_raw.get('user_id'),
-        username=user_raw.get('nickname'),
-        name=user_raw.get('name'),
-        email=user_raw.get('email'),
-        date_joined=user_raw.get('created_at'),
-        last_login=user_raw.get('last_login'),
+        id=user_id,
+        username=user_dict.get('nickname'),
+        name=user_dict.get('name'),
+        email=user_dict.get('email'),
+        date_joined=user_dict.get('created_at'),
+        last_login=user_dict.get('last_login'),
         roles=body.get('roles')
     )
 
@@ -59,19 +67,6 @@ def post_users():
             'success': True,
             'user': user.format_short(),
         })
-
-    # drink = Drink(title=body.get('title'), recipe=recipe_json)
-
-    # try:
-    #     drink.insert()
-    # except Exception as e:
-    #     print('POST /drinks EXCEPTION >>> ', e)
-    #     abort(422)
-    # else:
-    #     return jsonify({
-    #         'success': True,
-    #         'drinks': [drink.long()]
-    #     })
 
 
 '''
