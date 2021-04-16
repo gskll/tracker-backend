@@ -33,25 +33,32 @@ def post_users():
 
     user_raw = body.get('user')
 
+    if not user_raw.get('user_id'):
+        abort(400)
+
     print(user_raw)
     print(user_raw.get('user_id'))
-    print(user_raw['user_id'])
 
-    # user = User(
-    #     id=user_raw['user_id'],
-    #     username=user_raw['nickname'],
-    #     name=user_raw['name'],
-    #     email=user_raw['email'],
-    #     date_joined=datetime.now(),
-    #     last_login=datetime.now(),
+    user = User(
+        id=user_raw.get('user_id'),
+        username=user_raw.get('nickname'),
+        name=user_raw.get('name'),
+        email=user_raw.get('email'),
+        date_joined=user_raw.get('created_at'),
+        last_login=user_raw.get('last_login'),
+        roles=body.get('roles')
+    )
 
-    # )
-
-    # print(user)
-    return jsonify({
-        'success': True,
-        'user': user,
-    })
+    try:
+        user.insert()
+    except Exception as e:
+        print('POST /users EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'user': user,
+        })
 
     # drink = Drink(title=body.get('title'), recipe=recipe_json)
 
