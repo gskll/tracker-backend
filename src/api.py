@@ -53,7 +53,7 @@ def post_users():
         name=user_dict.get('name'),
         email=user_dict.get('email'),
         date_joined=user_dict.get('created_at'),
-        last_login=user_dict.get('last_login'),
+        last_login=user_dict.get('created_at'),
         roles=body.get('roles')
     )
 
