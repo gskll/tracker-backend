@@ -57,7 +57,7 @@ def post_users():
     else:
         return jsonify({
             'success': True,
-            'user': user,
+            'user': user.format_short(),
         })
 
     # drink = Drink(title=body.get('title'), recipe=recipe_json)
