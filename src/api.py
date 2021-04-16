@@ -7,7 +7,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 from .database.models import setup_db, Issue, Comment, User
-# from .auth.auth import AuthError, requires_auth
+from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
@@ -38,12 +38,6 @@ def post_users():
         print('400: no user_id provided')
         abort(400)
 
-    user_exists = User.query.get(user_id)
-
-    if user_exists:
-        print('422: user already exists')
-        abort(422)
-
     # TODO: delete
     print(user_dict)
 
@@ -57,8 +51,13 @@ def post_users():
         roles=body.get('roles')
     )
 
+    user_exists = User.query.get(user_id)
+
     try:
-        user.insert()
+        if user_exists:
+            user.update()
+        else:
+            user.insert()
     except Exception as e:
         print('POST /users EXCEPTION >>> ', e)
         abort(422)

@@ -142,8 +142,8 @@ class User(db.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'first_name': self.first_name,
-            'role': self.role
+            'name': self.name,
+            'roles': self.roles
         }
 
     '''
