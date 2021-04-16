@@ -4,9 +4,8 @@ from sqlalchemy import Column, String, Integer, Boolean, Text, DateTime, Foreign
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-database_name = "tracker"
 project_dir = os.path.dirname(os.path.abspath(__file__))
-database_path = f"postgres://localhost:5432/{database_name}"
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 db = SQLAlchemy()
 
@@ -17,7 +16,7 @@ setup_db(app)
 
 
 def setup_db(app, database_path=database_path):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
