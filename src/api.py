@@ -7,7 +7,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 from .database.models import setup_db, Issue, Comment, User
-from .auth.auth import AuthError, requires_auth
+# from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
