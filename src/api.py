@@ -160,3 +160,42 @@ def get_issues():
   returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted comment
     or appropriate status code indicating reason for failure
 '''
+
+
+# Error Handling
+
+
+@app.errorhandler(AuthError)
+def authorization_failed(AuthError):
+    return jsonify({
+        'success': False,
+        'error': AuthError.status_code,
+        'message': AuthError.error
+    }), AuthError.status_code
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        'success': False,
+        'error': 404,
+        'message': 'resource not found'
+    }), 404
+
+
+@app.errorhandler(422)
+def unprocessable(error):
+    return jsonify({
+        "success": False,
+        "error": 422,
+        "message": "unprocessable"
+    }), 422
+
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+        'success': False,
+        'error': 400,
+        'message': 'bad request'
+    }), 400
