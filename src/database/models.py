@@ -1,6 +1,6 @@
 import os
 from flask_sqlalchemy.model import Model
-from sqlalchemy import Column, String, Integer, Boolean, Text, DateTime, ForeignKey
+from sqlalchemy import ARRAY, Column, String, Integer, Boolean, Text, DateTime, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 
@@ -109,12 +109,11 @@ class User(db.Model):
 
     id = Column(String, primary_key=True)
     username = Column(String(100))
-    first_name = Column(String(100))
-    last_name = Column(String(100))
+    name = Column(String(200))
     email = Column(String(320), nullable=False)
     date_joined = Column(DateTime, nullable=False)
     last_login = Column(DateTime, nullable=False)
-    role = Column(String(100))
+    roles = Column(ARRAY(String(100)))
 
     # relationships
     issues = db.relationship('Issue', backref='user')
