@@ -202,6 +202,43 @@ def post_comment():
 '''
 
 
+@app.route('/issues/<id>', methods=['PATCH'])
+def patch_issues(id):
+    issue = Issue.query.get(id)
+    body = request.get_json()
+
+    if not issue:
+        abort(404)
+
+    if not body:
+        abort(400)
+
+    if 'title' in body:
+        issue.title = body.get('title')
+
+    if 'text' in body:
+        issue.text = body.get('text')
+
+    if 'open' in body:
+        issue.open = body.get('open')
+
+        if not body.get('open'):
+            issue.closed_at = datetime.now()
+
+    issue.last_modified = datetime.now()
+
+    try:
+        issue.update()
+    except Exception as e:
+        print('PATCH /issues/<id> EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'issue': issue.format_no_comments()
+        })
+
+
 '''
   PATCH /comments/<id>
     where <id> is the existing model id
