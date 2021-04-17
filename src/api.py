@@ -251,6 +251,34 @@ def patch_issues(id):
 '''
 
 
+@app.route('/comments/<id>', methods=['PATCH'])
+def patch_comments(id):
+    comment = Comment.query.get(id)
+    body = request.get_json()
+
+    if not comment:
+        abort(404)
+
+    if not body:
+        abort(400)
+
+    if 'text' in body:
+        comment.text = body.get('text')
+
+    comment.last_modified = datetime.now()
+
+    try:
+        comment.update()
+    except Exception as e:
+        print('PATCH /comments/<id> EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'comment': comment.format()
+        })
+
+
 '''
   DELETE /issues/<id>
     where <id> is the existing model id
