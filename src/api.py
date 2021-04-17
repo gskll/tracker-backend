@@ -13,14 +13,19 @@ app = Flask(__name__)
 setup_db(app)
 CORS(app)
 
+#----------------------------------------------------------------------------#
+#
 # ROUTES
-'''
-  POST /users
-    it should be a public endpoint
-    it should create a new row in the Users table
-  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
-    or appropriate status code indicating reason for failure
-'''
+#
+#----------------------------------------------------------------------------#
+
+#----------------------------------------------------------------------------#
+#  POST /users
+#    it should be a public endpoint
+#    it should create a new row in the Users table
+#  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 # TODO: secure /users endpoint??
 # TODO: add separate test suite
@@ -76,13 +81,13 @@ def post_users():
         })
 
 
-'''
-  GET /issues
-    it should be a public endpoint
-    it should contain only the issue.format_no_comments() data representation
-  returns status code 200 and json {"success": True, "issues": issues} where issues is the list of issues
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  GET /issues
+#    it should be a public endpoint
+#    it should contain only the issue.format_no_comments() data representation
+#  returns status code 200 and json {"success": True, "issues": issues} where issues is the list of issues
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/issues', methods=['GET'])
@@ -96,15 +101,15 @@ def get_issues():
     })
 
 
-'''
-  GET /issues/<id>
-    where <id> is the existing model id
-    it should respond with a 404 error if <id> is not found
-    it should be a public endpoint
-    it should contain only the issue.format_with_comments() data representation
-  returns status code 200 and json {"success": True, "issue": issue} where issue is the issue with id of <id>
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  GET /issues/<id>
+#    where <id> is the existing model id
+#    it should respond with a 404 error if <id> is not found
+#    it should be a public endpoint
+#    it should contain only the issue.format_with_comments() data representation
+#  returns status code 200 and json {"success": True, "issue": issue} where issue is the issue with id of <id>
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/issues/<id>', methods=['GET'])
@@ -124,14 +129,14 @@ def get_issue(auth_payload, id):
     })
 
 
-'''
-  POST /issues
-    it should create a new row in the issues table
-    it should be require the 'post:issues' permission
-    it should contain the issue.format_no_comments() data representation
-  returns status code 200 and json {"success": True, "issue": issue} where issue is the newly created issue
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  POST /issues
+#    it should create a new row in the issues table
+#    it should be require the 'post:issues' permission
+#    it should contain the issue.format_no_comments() data representation
+#  returns status code 200 and json {"success": True, "issue": issue} where issue is the newly created issue
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/issues', methods=['POST'])
@@ -162,14 +167,14 @@ def post_issue(auth_payload):
         })
 
 
-'''
-  POST /comments
-    it should create a new row in the comments table
-    it should be require the 'post:comments' permission
-    it should contain the comment.format() data representation
-  returns status code 200 and json {"success": True, "comment": comment} where comment is the newly created comment
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  POST /comments
+#    it should create a new row in the comments table
+#    it should be require the 'post:comments' permission
+#    it should contain the comment.format() data representation
+#  returns status code 200 and json {"success": True, "comment": comment} where comment is the newly created comment
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/comments', methods=['POST'])
@@ -200,17 +205,16 @@ def post_comment(auth_payload):
         })
 
 
-'''
-  PATCH /issues/<id>
-    where <id> is the existing model id
-    it should respond with a 404 error if <id> is not found
-    it should edit the corresponding row in the issues table
-    it should be require the 'patch:issues' permission
-    it should contain the issue.format_no_comments() data representation
-  returns status code 200 and json {"success": True, "issue": issue} where issue is the edited issue
-    or appropriate status code indicating reason for failure
-'''
-
+#----------------------------------------------------------------------------#
+# PATCH /issues/<id>
+#    where < id > is the existing model id
+#    it should respond with a 404 error if < id > is not found
+#    it should edit the corresponding row in the issues table
+#    it should be require the 'patch:issues' permission
+#    it should contain the issue.format_no_comments() data representation
+#  returns status code 200 and json {"success": True, "issue": issue} where issue is the edited issue
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 @app.route('/issues/<id>', methods=['PATCH'])
 @requires_auth('patch:issues')
@@ -250,16 +254,16 @@ def patch_issues(auth_payload, id):
         })
 
 
-'''
-  PATCH /comments/<id>
-    where <id> is the existing model id
-    it should respond with a 404 error if <id> is not found
-    it should edit the corresponding row in the comments table
-    it should be require the 'patch:comments' permission
-    it should contain the comment.format() data representation
-  returns status code 200 and json {"success": True, "comment": comment} where comment is the edited comment
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  PATCH /comments/<id>
+#    where <id> is the existing model id
+#    it should respond with a 404 error if <id> is not found
+#    it should edit the corresponding row in the comments table
+#    it should be require the 'patch:comments' permission
+#    it should contain the comment.format() data representation
+#  returns status code 200 and json {"success": True, "comment": comment} where comment is the edited comment
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/comments/<id>', methods=['PATCH'])
@@ -291,15 +295,15 @@ def patch_comments(auth_payload, id):
         })
 
 
-'''
-  DELETE /issues/<id>
-    where <id> is the existing model id
-    it should respond with a 404 error if <id> is not found
-    it should delete the corresponding row in the issues table
-    it should be require the 'delete:issues' permission
-  returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted issue
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  DELETE /issues/<id>
+#    where <id> is the existing model id
+#    it should respond with a 404 error if <id> is not found
+#    it should delete the corresponding row in the issues table
+#    it should be require the 'delete:issues' permission
+#  returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted issue
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/issues/<id>', methods=['DELETE'])
@@ -322,15 +326,15 @@ def delete_issues(auth_payload, id):
         })
 
 
-'''
-  DELETE /comments/<id>
-    where <id> is the existing model id
-    it should respond with a 404 error if <id> is not found
-    it should delete the corresponding row in the comments table
-    it should be require the 'delete:comments' permission
-  returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted comment
-    or appropriate status code indicating reason for failure
-'''
+#----------------------------------------------------------------------------#
+#  DELETE /comments/<id>
+#    where <id> is the existing model id
+#    it should respond with a 404 error if <id> is not found
+#    it should delete the corresponding row in the comments table
+#    it should be require the 'delete:comments' permission
+#  returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted comment
+#    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
 
 @app.route('/comments/<id>', methods=['DELETE'])
@@ -352,8 +356,10 @@ def delete_comments(auth_payload, id):
             'delete': id
         })
 
-
+#----------------------------------------------------------------------------#
 # Error Handling
+#----------------------------------------------------------------------------#
+
 
 @app.errorhandler(AuthError)
 def authorization_failed(AuthError):

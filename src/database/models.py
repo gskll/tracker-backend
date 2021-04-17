@@ -10,10 +10,10 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 
 db = SQLAlchemy()
 
-'''
-setup_db(app)
-    binds a flask application and a SQLAlchemy service
-'''
+#----------------------------------------------------------------------------#
+# setup_db(app)
+#     binds a flask application and a SQLAlchemy service
+#----------------------------------------------------------------------------#
 
 
 def setup_db(app, database_path=DATABASE_URL):
@@ -21,14 +21,12 @@ def setup_db(app, database_path=DATABASE_URL):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    # migrate = Migrate(app, db)
 
 
-'''
-Issue
-a persistant issue entity, extends the base SQLAlchemy Model
-'''
-
+#----------------------------------------------------------------------------#
+# Issue
+# a persistant issue entity, extends the base SQLAlchemy Model
+#----------------------------------------------------------------------------#
 
 class Issue(db.Model):
     __tablename__ = 'issues'
@@ -61,11 +59,11 @@ class Issue(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    '''
-    format_no_comments()
-        short form representation of the Issue model
-        without related comments
-    '''
+    #----------------------------------------------------------------------------#
+    # format_no_comments()
+    #     short form representation of the Issue model
+    #     without related comments
+    #----------------------------------------------------------------------------#
 
     def format_no_comments(self):
         created_at = self.created_at
@@ -92,11 +90,11 @@ class Issue(db.Model):
             'user': self.user.format_short()
         }
 
-    '''
-    format_with_comments()
-        long form representation of the Issue model
-        with related comments
-    '''
+    #----------------------------------------------------------------------------#
+    # format_with_comments()
+    #     long form representation of the Issue model
+    #     with related comments
+    #----------------------------------------------------------------------------#
 
     def format_with_comments(self):
         created_at = self.created_at
@@ -125,10 +123,10 @@ class Issue(db.Model):
         }
 
 
-'''
-User
-a persistant user entity, extends the base SQLAlchemy Model
-'''
+#----------------------------------------------------------------------------#
+# User
+# a persistant user entity, extends the base SQLAlchemy Model
+#----------------------------------------------------------------------------#
 
 
 class User(db.Model):
@@ -160,10 +158,10 @@ class User(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    '''
-    format_short()
-        short form representation of the User model
-    '''
+    #----------------------------------------------------------------------------#
+    # format_short()
+    #     short form representation of the User model
+    #----------------------------------------------------------------------------#
 
     def format_short(self):
         return {
@@ -178,10 +176,10 @@ class User(db.Model):
     '''
 
 
-'''
-Comment
-a persistant comment entity, extends the base SQLAlchemy Model
-'''
+#----------------------------------------------------------------------------#
+# Comment
+# a persistant comment entity, extends the base SQLAlchemy Model
+#----------------------------------------------------------------------------#
 
 
 class Comment(db.Model):
@@ -210,10 +208,10 @@ class Comment(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    '''
-    format()
-        representation of the Comment model
-    '''
+    #----------------------------------------------------------------------------#
+    # format()
+    #     representation of the Comment model
+    #----------------------------------------------------------------------------#
 
     def format(self):
         created_at = self.created_at
