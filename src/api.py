@@ -108,7 +108,8 @@ def get_issues():
 
 
 @app.route('/issues/<id>', methods=['GET'])
-def get_issue(id):
+@requires_auth('get:issue')
+def get_issue(auth_payload, id):
     issue = Issue.query.get(id)
 
     if not issue:
@@ -355,6 +356,15 @@ def authorization_failed(AuthError):
         'error': AuthError.status_code,
         'message': AuthError.error
     }), AuthError.status_code
+
+
+@app.errorhandler(401)
+def not_found(error):
+    return jsonify({
+        'success': False,
+        'error': 401,
+        'message': 'unauthorized'
+    }), 401
 
 
 @app.errorhandler(404)
