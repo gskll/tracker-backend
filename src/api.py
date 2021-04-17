@@ -22,6 +22,13 @@ CORS(app)
     or appropriate status code indicating reason for failure
 '''
 
+# TODO: add role based authentication
+# TODO: add separate test suite
+'''
+Includes at least one test for expected success and error behavior for each endpoint using the unittest library
+Includes tests demonstrating role-based access control, at least two per role.
+'''
+
 
 @app.route('/users', methods=['POST'])
 def post_users():
@@ -289,6 +296,26 @@ def patch_comments(id):
     or appropriate status code indicating reason for failure
 '''
 
+
+@app.route('/issues/<id>', methods=['DELETE'])
+def delete_issues(id):
+    issue = Issue.query.get(id)
+
+    if not issue:
+        abort(404)
+
+    try:
+        issue.delete()
+    except Exception as e:
+        print('DELETE /issues/<issue_id> EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'delete': id
+        })
+
+
 '''
   DELETE /comments/<id>
     where <id> is the existing model id
@@ -298,6 +325,25 @@ def patch_comments(id):
   returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted comment
     or appropriate status code indicating reason for failure
 '''
+
+
+@app.route('/comments/<id>', methods=['DELETE'])
+def delete_comments(id):
+    comment = Comment.query.get(id)
+
+    if not comment:
+        abort(404)
+
+    try:
+        comment.delete()
+    except Exception as e:
+        print('DELETE /comments/<comment_id> EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'delete': id
+        })
 
 
 # Error Handling
