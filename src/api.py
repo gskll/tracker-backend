@@ -162,6 +162,34 @@ def post_issue():
     or appropriate status code indicating reason for failure
 '''
 
+
+@app.route('/comments', methods=['POST'])
+def post_comment():
+    body = request.get_json()
+
+    for field in body.values():
+        if not field:
+            abort(400)
+
+    comment = Comment(
+        text=body.get('text'),
+        created_at=datetime.now(),
+        user_id=body.get('user_id'),
+        issue_id=body.get('issue_id')
+    )
+
+    try:
+        comment.insert()
+    except Exception as e:
+        print('POST /comments EXCEPTION >>> ', e)
+        abort(422)
+    else:
+        return jsonify({
+            'success': True,
+            'comment': comment.format()
+        })
+
+
 '''
   PATCH /issues/<id>
     where <id> is the existing model id

@@ -190,7 +190,7 @@ class Comment(db.Model):
     id = Column(Integer, primary_key=True)
     text = Column(Text, nullable=False)
     created_at = Column(DateTime, nullable=False)
-    last_modified = Column(DateTime, nullable=False)
+    last_modified = Column(DateTime, nullable=True)
 
     # Foreign keys
     user_id = Column(String, ForeignKey('users.id'), nullable=False)
@@ -216,11 +216,20 @@ class Comment(db.Model):
     '''
 
     def format(self):
+        created_at = self.created_at
+        last_modified = self.last_modified
+
+        if created_at:
+            created_at = created_at.strftime("%m/%d/%Y, %H:%M:%S")
+
+        if last_modified:
+            last_modified = last_modified.strftime("%m/%d/%Y, %H:%M:%S")
+
         return {
             'id': self.id,
             'text': self.text,
-            'created_at': self.created_at.strftime("%m/%d/%Y, %H:%M:%S"),
-            'last_modified': self.last_modified.strftime("%m/%d/%Y, %H:%M:%S"),
-            'user': self.user,
-            'issue': self.issue
+            'created_at': created_at,
+            'last_modified': last_modified,
+            'user_id': self.user_id,
+            'issue_id': self.issue_id
         }
