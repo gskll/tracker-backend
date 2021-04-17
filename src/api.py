@@ -348,14 +348,13 @@ def delete_comments(id):
 
 # Error Handling
 
-
-# @app.errorhandler(AuthError)
-# def authorization_failed(AuthError):
-#     return jsonify({
-#         'success': False,
-#         'error': AuthError.status_code,
-#         'message': AuthError.error
-#     }), AuthError.status_code
+@app.errorhandler(AuthError)
+def authorization_failed(AuthError):
+    return jsonify({
+        'success': False,
+        'error': AuthError.status_code,
+        'message': AuthError.error
+    }), AuthError.status_code
 
 
 @app.errorhandler(404)
