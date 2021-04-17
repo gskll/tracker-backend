@@ -22,7 +22,7 @@ CORS(app)
     or appropriate status code indicating reason for failure
 '''
 
-# TODO: add role based authentication
+# TODO: secure /users endpoint??
 # TODO: add separate test suite
 '''
 Includes at least one test for expected success and error behavior for each endpoint using the unittest library
@@ -135,7 +135,8 @@ def get_issue(auth_payload, id):
 
 
 @app.route('/issues', methods=['POST'])
-def post_issue():
+@requires_auth('post:issues')
+def post_issue(auth_payload):
     body = request.get_json()
 
     for field in body.values():
@@ -172,7 +173,8 @@ def post_issue():
 
 
 @app.route('/comments', methods=['POST'])
-def post_comment():
+@requires_auth('post:comments')
+def post_comment(auth_payload):
     body = request.get_json()
 
     for field in body.values():
@@ -211,7 +213,8 @@ def post_comment():
 
 
 @app.route('/issues/<id>', methods=['PATCH'])
-def patch_issues(id):
+@requires_auth('patch:issues')
+def patch_issues(auth_payload, id):
     issue = Issue.query.get(id)
     body = request.get_json()
 
@@ -260,7 +263,8 @@ def patch_issues(id):
 
 
 @app.route('/comments/<id>', methods=['PATCH'])
-def patch_comments(id):
+@requires_auth('patch:comments')
+def patch_comments(auth_payload, id):
     comment = Comment.query.get(id)
     body = request.get_json()
 
@@ -299,7 +303,8 @@ def patch_comments(id):
 
 
 @app.route('/issues/<id>', methods=['DELETE'])
-def delete_issues(id):
+@requires_auth('delete:issues')
+def delete_issues(auth_payload, id):
     issue = Issue.query.get(id)
 
     if not issue:
@@ -329,7 +334,8 @@ def delete_issues(id):
 
 
 @app.route('/comments/<id>', methods=['DELETE'])
-def delete_comments(id):
+@requires_auth('delete:comments')
+def delete_comments(auth_payload, id):
     comment = Comment.query.get(id)
 
     if not comment:
