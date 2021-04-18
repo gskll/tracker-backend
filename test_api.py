@@ -164,14 +164,20 @@ class TrackerTestCase(unittest.TestCase):
     #   - test_get_issues_invalid_route: 404 - endpoint only works with /issues
     #----------------------------------------------------------------------------#
 
-    def test(self):
+    def test_get_issues(self):
         res = self.client().get('/issues')
-
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
         self.assertTrue(data['issues'])
+
+    def test_get_issues_invalid_route(self):
+        res = self.client().get('/issuess')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
 
     #----------------------------------------------------------------------------#
     # GET /issues/<id> Endpoint
