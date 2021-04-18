@@ -1,13 +1,13 @@
 import os
-from flask import Flask, request, jsonify, abort
-from sqlalchemy import exc
 import json
-from flask_cors import CORS
-
 from datetime import datetime
 
-from database import setup_db, Issue, Comment, User
-from auth import AuthError, requires_auth
+from flask import Flask, request, jsonify, abort
+from sqlalchemy import exc
+from flask_cors import CORS
+
+from .models import setup_db, Issue, Comment, User
+from .auth import AuthError, requires_auth
 
 
 def create_app(test_config=None):
