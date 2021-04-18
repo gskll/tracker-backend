@@ -109,6 +109,12 @@ class TrackerTestCase(unittest.TestCase):
             "user_id": "1"
         }
 
+        self.test_comment_json = {
+            "text": "test comment text",
+            "user_id": "1",
+            "issue_id": 2
+        }
+
     def tearDown(self):
         """Executed after reach test"""
         db.session.remove()
@@ -239,7 +245,7 @@ class TrackerTestCase(unittest.TestCase):
         )
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 403)
         self.assertFalse(data['success'])
 
     def test_add_issue_non_unique_title(self):
@@ -267,7 +273,31 @@ class TrackerTestCase(unittest.TestCase):
     #   - test_add_comment_invalid_user_id: 422 - tests that endpoint fails if invalid user_id sent
     #----------------------------------------------------------------------------#
 
-    #----------------------------------------------------------------------------#
+    def test_add_comment(self):
+        res = self.client().post(
+            '/comments',
+            headers=test_auth_headers['commenter'],
+            json=self.test_comment_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['comment'])
+        self.assertEqual(data['comment']['text'],
+                         self.test_comment_json['text'])
+
+    def test_add_comment_invalid_permissions(self):
+        res = self.client().post(
+            '/comments',
+            json=self.test_comment_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(data['success'])
+
+    #------------------------------------  b----------------------------------------#
     # PATCH /issues Endpoint
     #   - test_update_issue: 200 - tests that admin role can update an issue
     #   - test_update_issues_invalid_permissions: 401 - tests that commenter role cannot update an issue
