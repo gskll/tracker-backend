@@ -106,14 +106,72 @@ class TrackerTestCase(unittest.TestCase):
     #----------------------------------------------------------------------------#
     # POST /users Endpoint
     #   - test_add_user: 200 - tests correctly adding a user
-    #   - test_add_user_already_exists: 422 - tests adding a pre-exisitng user
+    #   - test_add_user_already_exists: 422 - tests adding a pre-existing user
     #----------------------------------------------------------------------------#
+
+    def test_add_user(self):
+        test_user_json = {
+            "user": {
+                "user_id": "test",
+                "nickname": 'testuser',
+                "name": 'user',
+                "email": 'user@user.com',
+                "created_at": '2021-04-16 00:00:00.000',
+            },
+            "roles": ["Admin"]
+        }
+
+        prev_user_count = len(User.query.all())
+
+        res = self.client().post('/users', json=test_user_json)
+        data = json.loads(res.data)
+
+        curr_user_count = len(User.query.all())
+
+        self.assertEqual(curr_user_count - prev_user_count, 1)
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+
+    def test_add_user_already_exists(self):
+        test_user_json = {
+            "user": {
+                "user_id": "test",
+                "nickname": 'testuser',
+                "name": 'user',
+                "email": 'user@user.com',
+                "created_at": '2021-04-16 00:00:00.000',
+            },
+            "roles": ["Admin"]
+        }
+
+        res = self.client().post('/users', json=test_user_json)
+
+        prev_user_count = len(User.query.all())
+
+        res = self.client().post('/users', json=test_user_json)
+
+        data = json.loads(res.data)
+
+        curr_user_count = len(User.query.all())
+
+        self.assertEqual(curr_user_count - prev_user_count, 0)
+        self.assertEqual(res.status_code, 422)
+        self.assertFalse(data['success'])
 
     #----------------------------------------------------------------------------#
     # GET /issues Endpoint
     #   - test_get_issues: 200 - tests that endpoint is working
     #   - test_get_issues_invalid_route: 404 - endpoint only works with /issues
     #----------------------------------------------------------------------------#
+
+    def test(self):
+        res = self.client().get('/issues')
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['issues'])
 
     #----------------------------------------------------------------------------#
     # GET /issues/<id> Endpoint

@@ -67,9 +67,6 @@ def create_app(test_config=None):
             print('422: user already exists')
             abort(422)
 
-        # TODO: delete
-        print(user_dict)
-
         user = User(
             id=user_id,
             username=user_dict.get('nickname'),
