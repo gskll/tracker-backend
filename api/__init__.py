@@ -153,8 +153,8 @@ def create_app(test_config=None):
         issue = Issue(
             title=body.get('title'),
             text=body.get('text'),
-            created_at=body.get('created_at'),
-            user_id=body.get('user_id')
+            created_at=datetime.now(),
+            user_id=auth_payload['sub']
         )
 
         try:
@@ -189,7 +189,7 @@ def create_app(test_config=None):
         comment = Comment(
             text=body.get('text'),
             created_at=datetime.now(),
-            user_id=body.get('user_id'),
+            user_id=auth_payload['sub'],
             issue_id=body.get('issue_id')
         )
 
