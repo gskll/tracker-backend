@@ -220,7 +220,7 @@ class TrackerTestCase(unittest.TestCase):
     #----------------------------------------------------------------------------#
     # POST /issues Endpoint
     #   - test_add_issue: 200 - tests that admin role can add issues
-    #   - test_add_issue_invalid_permissions: 401 - tests that commenter role cannot add issues
+    #   - test_add_issue_invalid_permissions: 403 - tests that commenter role cannot add issues
     #   - test_add_issue_non_unique_title: 422 - test uniqueness of issue titles
     #----------------------------------------------------------------------------#
 
@@ -300,7 +300,7 @@ class TrackerTestCase(unittest.TestCase):
     #------------------------------------  b----------------------------------------#
     # PATCH /issues Endpoint
     #   - test_update_issue: 200 - tests that admin role can update an issue
-    #   - test_update_issue_invalid_permissions: 401 - tests that commenter role cannot update an issue
+    #   - test_update_issue_invalid_permissions: 403 - tests that commenter role cannot update an issue
     #   - test_update_issue_invalid_id: 404 - tests endpoint fails with invalid issue id
     #----------------------------------------------------------------------------#
     def test_update_issue(self):
@@ -415,22 +415,67 @@ class TrackerTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
 
     def test_delete_comment(self):
+        prev_comment_count = len(Comment.query.all())
         res = self.client().delete(
             '/comments/2',
             headers=test_auth_headers['commenter'],
         )
+        curr_comment_count = len(Comment.query.all())
         data = json.loads(res.data)
 
+        self.assertEqual(prev_comment_count - curr_comment_count, 1)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
         self.assertEqual(data['delete'], '2')
 
     #----------------------------------------------------------------------------#
     # DELETE /issues Endpoint
-    #   - test_delete_issue_invalid_permissions: 401 - tests commenter role cannot delete an issue
+    #   - test_delete_issue_invalid_permissions: 403 - tests commenter role cannot delete an issue
     #   - test_delete_issue_invalid_id: 404 - tests endpoint fails with invalid issue id
     #   - test_delete_issue: 200 - tests admin role can delete an issue
     #----------------------------------------------------------------------------#
+
+    def test_delete_issue_invalid_permissions(self):
+        res = self.client().delete(
+            '/issues/2',
+            headers=test_auth_headers['commenter'],
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403)
+        self.assertFalse(data['success'])
+
+    def test_delete_issue_invalid_id(self):
+        res = self.client().delete(
+            '/issues/100',
+            headers=test_auth_headers['admin'],
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
+
+    def test_delete_issue(self):
+        res = self.client().post(
+            '/issues',
+            headers=test_auth_headers['admin'],
+            json=self.test_issue_json
+        )
+        data = json.loads(res.data)
+
+        issue_id = data['issue']['id']
+
+        prev_issue_count = len(Issue.query.all())
+
+        res = self.client().delete(
+            f'/issues/{issue_id}',
+            headers=test_auth_headers['admin'],
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertEqual(data['delete'], str(issue_id))
 
 
 # From src directory, run 'python test_api.py' to start tests
