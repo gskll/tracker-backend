@@ -350,6 +350,45 @@ class TrackerTestCase(unittest.TestCase):
     #   - test_update_comment_invalid_permissions: 401 - tests that public cannot update a comment
     #   - test_update_comment_invalid_id: 404 - tests endpoint fails with invalid comment id
     #----------------------------------------------------------------------------#
+    def test_update_comment(self):
+        self.test_comment_json['text'] = 'EDITED'
+
+        res = self.client().patch(
+            '/comments/2',
+            headers=test_auth_headers['commenter'],
+            json=self.test_comment_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['comment'])
+        self.assertEqual(data['comment']['text'], 'EDITED')
+
+    def test_update_comment_invalid_permissions(self):
+        self.test_comment_json['text'] = 'EDITED'
+
+        res = self.client().patch(
+            '/comments/2',
+            json=self.test_comment_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(data['success'])
+
+    def test_update_comment_invalid_id(self):
+        self.test_comment_json['text'] = 'EDITED'
+
+        res = self.client().patch(
+            '/comments/100',
+            headers=test_auth_headers['admin'],
+            json=self.test_comment_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
 
     #----------------------------------------------------------------------------#
     # DELETE /comments Endpoint
