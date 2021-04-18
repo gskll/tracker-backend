@@ -49,7 +49,7 @@ def insert_db_test_records():
     )
 
     issue = Issue(
-        id=1,
+        id=2,
         title='issue',
         text='issue text',
         created_at=datetime,
@@ -57,11 +57,11 @@ def insert_db_test_records():
     )
 
     comment = Comment(
-        id=1,
+        id=2,
         text='comment',
         created_at=datetime,
         user_id=1,
-        issue_id=1
+        issue_id=2
     )
 
     try:
@@ -91,6 +91,24 @@ class TrackerTestCase(unittest.TestCase):
         db.create_all()
         insert_db_test_records()
 
+        self.test_user_json = {
+            "user": {
+                "user_id": "test",
+                "nickname": 'testuser',
+                "name": 'user',
+                "email": 'user@user.com',
+                "created_at": '2021-04-16 00:00:00.000',
+            },
+            "roles": ["Admin"]
+        }
+
+        self.test_issue_json = {
+            "title": "test2",
+            "text": "text",
+            "created_at": "'2021-04-16 00:00:00.000'",
+            "user_id": "1"
+        }
+
     def tearDown(self):
         """Executed after reach test"""
         db.session.remove()
@@ -110,20 +128,9 @@ class TrackerTestCase(unittest.TestCase):
     #----------------------------------------------------------------------------#
 
     def test_add_user(self):
-        test_user_json = {
-            "user": {
-                "user_id": "test",
-                "nickname": 'testuser',
-                "name": 'user',
-                "email": 'user@user.com',
-                "created_at": '2021-04-16 00:00:00.000',
-            },
-            "roles": ["Admin"]
-        }
-
         prev_user_count = len(User.query.all())
 
-        res = self.client().post('/users', json=test_user_json)
+        res = self.client().post('/users', json=self.test_user_json)
         data = json.loads(res.data)
 
         curr_user_count = len(User.query.all())
@@ -133,22 +140,11 @@ class TrackerTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
 
     def test_add_user_already_exists(self):
-        test_user_json = {
-            "user": {
-                "user_id": "test",
-                "nickname": 'testuser',
-                "name": 'user',
-                "email": 'user@user.com',
-                "created_at": '2021-04-16 00:00:00.000',
-            },
-            "roles": ["Admin"]
-        }
-
-        res = self.client().post('/users', json=test_user_json)
+        res = self.client().post('/users', json=self.test_user_json)
 
         prev_user_count = len(User.query.all())
 
-        res = self.client().post('/users', json=test_user_json)
+        res = self.client().post('/users', json=self.test_user_json)
 
         data = json.loads(res.data)
 
@@ -188,7 +184,9 @@ class TrackerTestCase(unittest.TestCase):
 
     def test_get_issue(self):
         res = self.client().get(
-            '/issues/1', headers=test_auth_headers['admin'])
+            '/issues/2',
+            headers=test_auth_headers['admin']
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -197,7 +195,7 @@ class TrackerTestCase(unittest.TestCase):
         self.assertEqual(data['issue']['title'], 'issue')
 
     def test_get_issue_invalid_permissions(self):
-        res = self.client().get('/issues/1')
+        res = self.client().get('/issues/2')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -205,7 +203,9 @@ class TrackerTestCase(unittest.TestCase):
 
     def test_get_issue_invalid_id(self):
         res = self.client().get(
-            '/issues/100', headers=test_auth_headers['admin'])
+            '/issues/100',
+            headers=test_auth_headers['admin']
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -213,10 +213,52 @@ class TrackerTestCase(unittest.TestCase):
 
     #----------------------------------------------------------------------------#
     # POST /issues Endpoint
-    #   - test_add_issues: 200 - tests that admin role can add issues
-    #   - test_add_issues_invalid_permissions: 401 - tests that commenter role cannot add issues
+    #   - test_add_issue: 200 - tests that admin role can add issues
+    #   - test_add_issue_invalid_permissions: 401 - tests that commenter role cannot add issues
     #   - test_add_issue_non_unique_title: 422 - test uniqueness of issue titles
     #----------------------------------------------------------------------------#
+
+    def test_add_issue(self):
+        res = self.client().post(
+            '/issues',
+            headers=test_auth_headers['admin'],
+            json=self.test_issue_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['issue'])
+        self.assertEqual(data['issue']['title'], self.test_issue_json['title'])
+
+    def test_add_issue_invalid_permissions(self):
+        res = self.client().post(
+            '/issues',
+            headers=test_auth_headers['commenter'],
+            json=self.test_issue_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(data['success'])
+
+    def test_add_issue_non_unique_title(self):
+        self.client().post(
+            '/issues',
+            headers=test_auth_headers['admin'],
+            json=self.test_issue_json
+        )
+
+        res = self.client().post(
+            '/issues',
+            headers=test_auth_headers['admin'],
+            json=self.test_issue_json
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertFalse(data['success'])
 
     #----------------------------------------------------------------------------#
     # POST /comments Endpoint
