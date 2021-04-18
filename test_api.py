@@ -98,18 +98,71 @@ class TrackerTestCase(unittest.TestCase):
         pass
 
     #----------------------------------------------------------------------------#
+    #
     # TESTS
+    #
     #----------------------------------------------------------------------------#
-    def test(self):
-        res = self.client().get('/issues')
 
-        data = json.loads(res.data)
+    #----------------------------------------------------------------------------#
+    # POST /users Endpoint
+    #   - test_add_user: 200 - tests correctly adding a user
+    #   - test_add_user_already_exists: 422 - tests adding a pre-exisitng user
+    #----------------------------------------------------------------------------#
 
-        print(data['issues'])
+    #----------------------------------------------------------------------------#
+    # GET /issues Endpoint
+    #   - test_get_issues: 200 - tests that endpoint is working
+    #   - test_get_issues_invalid_route: 404 - endpoint only works with /issues
+    #----------------------------------------------------------------------------#
 
-        self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['success'])
-        self.assertTrue(data['issues'])
+    #----------------------------------------------------------------------------#
+    # GET /issues/<id> Endpoint
+    #   - test_get_issue: 200 - tests that admin role can get a single issue
+    #   - test_get_issue_invalid_permissions: 401 - tests that public cannot get a single issue
+    #   - test_get_issue_invalid_id: 404 - tests fetching invalid id
+    #----------------------------------------------------------------------------#
+
+    #----------------------------------------------------------------------------#
+    # POST /issues Endpoint
+    #   - test_add_issues: 200 - tests that admin role can add issues
+    #   - test_add_issues_invalid_permissions: 401 - tests that commenter role cannot add issues
+    #   - test_add_issue_non_unique_title: 422 - test uniqueness of issue titles
+    #----------------------------------------------------------------------------#
+
+    #----------------------------------------------------------------------------#
+    # POST /comments Endpoint
+    #   - test_add_comment: 200 - tests that commenter role can add comments
+    #   - test_add_comment_invalid_permissions: 401 - tests that public cannot add comments
+    #   - test_add_comment_invalid_user_id: 422 - tests that endpoint fails if invalid user_id sent
+    #----------------------------------------------------------------------------#
+
+    #----------------------------------------------------------------------------#
+    # PATCH /issues Endpoint
+    #   - test_update_issue: 200 - tests that admin role can update an issue
+    #   - test_update_issues_invalid_permissions: 401 - tests that commenter role cannot update an issue
+    #   - test_update_issues_invalid_id: 404 - tests endpoint fails with invalid issue id
+    #----------------------------------------------------------------------------#
+
+    #----------------------------------------------------------------------------#
+    # PATCH /comments Endpoint
+    #   - test_update_comment: 200 - tests that commenter role can update a comment
+    #   - test_update_comment_invalid_permissions: 401 - tests that public cannot update a comment
+    #   - test_update_comment_invalid_id: 404 - tests endpoint fails with invalid comment id
+    #----------------------------------------------------------------------------#
+
+    #----------------------------------------------------------------------------#
+    # DELETE /comments Endpoint
+    #   - test_delete_comment_invalid_permissions: 401 - tests public cannot delete a comment
+    #   - test_delete_comment_invalid_id: 404 - tests endpoint fails with invalid comment id
+    #   - test_delete_comment: 200 - tests commenter role can delete a comment
+    #----------------------------------------------------------------------------#
+
+    #----------------------------------------------------------------------------#
+    # DELETE /issues Endpoint
+    #   - test_delete_issue_invalid_permissions: 401 - tests commenter role cannot delete an issue
+    #   - test_delete_issue_invalid_id: 404 - tests endpoint fails with invalid issue id
+    #   - test_delete_issue: 200 - tests admin role can delete an issue
+    #----------------------------------------------------------------------------#
 
 
 # From src directory, run 'python test_api.py' to start tests
