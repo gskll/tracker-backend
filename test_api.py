@@ -186,6 +186,31 @@ class TrackerTestCase(unittest.TestCase):
     #   - test_get_issue_invalid_id: 404 - tests fetching invalid id
     #----------------------------------------------------------------------------#
 
+    def test_get_issue(self):
+        res = self.client().get(
+            '/issues/1', headers=test_auth_headers['admin'])
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['issue'])
+        self.assertEqual(data['issue']['title'], 'issue')
+
+    def test_get_issue_invalid_permissions(self):
+        res = self.client().get('/issues/1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(data['success'])
+
+    def test_get_issue_invalid_id(self):
+        res = self.client().get(
+            '/issues/100', headers=test_auth_headers['admin'])
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
+
     #----------------------------------------------------------------------------#
     # POST /issues Endpoint
     #   - test_add_issues: 200 - tests that admin role can add issues
