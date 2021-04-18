@@ -397,6 +397,34 @@ class TrackerTestCase(unittest.TestCase):
     #   - test_delete_comment: 200 - tests commenter role can delete a comment
     #----------------------------------------------------------------------------#
 
+    def test_delete_comment_invalid_permissions(self):
+        res = self.client().delete('/comments/2')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(data['success'])
+
+    def test_delete_comment_invalid_id(self):
+        res = self.client().delete(
+            '/comments/100',
+            headers=test_auth_headers['commenter'],
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
+
+    def test_delete_comment(self):
+        res = self.client().delete(
+            '/comments/2',
+            headers=test_auth_headers['commenter'],
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertEqual(data['delete'], '2')
+
     #----------------------------------------------------------------------------#
     # DELETE /issues Endpoint
     #   - test_delete_issue_invalid_permissions: 401 - tests commenter role cannot delete an issue
