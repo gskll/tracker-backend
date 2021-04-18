@@ -225,13 +225,18 @@ class TrackerTestCase(unittest.TestCase):
     #----------------------------------------------------------------------------#
 
     def test_add_issue(self):
+        prev_issue_count = len(Issue.query.all())
+
         res = self.client().post(
             '/issues',
             headers=test_auth_headers['admin'],
             json=self.test_issue_json
         )
+
+        curr_issue_count = len(Issue.query.all())
         data = json.loads(res.data)
 
+        self.assertEqual(curr_issue_count - prev_issue_count, 1)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
         self.assertTrue(data['issue'])
@@ -274,13 +279,18 @@ class TrackerTestCase(unittest.TestCase):
     #----------------------------------------------------------------------------#
 
     def test_add_comment(self):
+        prev_comment_count = len(Comment.query.all())
+
         res = self.client().post(
             '/comments',
             headers=test_auth_headers['commenter'],
             json=self.test_comment_json
         )
+
+        curr_comment_count = len(Comment.query.all())
         data = json.loads(res.data)
 
+        self.assertEqual(curr_comment_count - prev_comment_count, 1)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
         self.assertTrue(data['comment'])
@@ -471,8 +481,11 @@ class TrackerTestCase(unittest.TestCase):
             f'/issues/{issue_id}',
             headers=test_auth_headers['admin'],
         )
+
+        curr_issue_count = len(Issue.query.all())
         data = json.loads(res.data)
 
+        self.assertEqual(prev_issue_count - curr_issue_count, 1)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
         self.assertEqual(data['delete'], str(issue_id))
