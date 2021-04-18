@@ -300,9 +300,49 @@ class TrackerTestCase(unittest.TestCase):
     #------------------------------------  b----------------------------------------#
     # PATCH /issues Endpoint
     #   - test_update_issue: 200 - tests that admin role can update an issue
-    #   - test_update_issues_invalid_permissions: 401 - tests that commenter role cannot update an issue
-    #   - test_update_issues_invalid_id: 404 - tests endpoint fails with invalid issue id
+    #   - test_update_issue_invalid_permissions: 401 - tests that commenter role cannot update an issue
+    #   - test_update_issue_invalid_id: 404 - tests endpoint fails with invalid issue id
     #----------------------------------------------------------------------------#
+    def test_update_issue(self):
+        self.test_issue_json['title'] = 'EDITED'
+
+        res = self.client().patch(
+            '/issues/2',
+            headers=test_auth_headers['admin'],
+            json=self.test_issue_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['issue'])
+        self.assertEqual(data['issue']['title'], 'EDITED')
+
+    def test_update_issue_invalid_permissions(self):
+        self.test_issue_json['title'] = 'EDITED'
+
+        res = self.client().patch(
+            '/issues/2',
+            headers=test_auth_headers['commenter'],
+            json=self.test_issue_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403)
+        self.assertFalse(data['success'])
+
+    def test_update_issue_invalid_id(self):
+        self.test_issue_json['title'] = 'EDITED'
+
+        res = self.client().patch(
+            '/issues/100',
+            headers=test_auth_headers['admin'],
+            json=self.test_issue_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
 
     #----------------------------------------------------------------------------#
     # PATCH /comments Endpoint
