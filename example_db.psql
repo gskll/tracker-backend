@@ -1,0 +1,41 @@
+INSERT INTO 
+  users 
+  (id, username, email, name, date_joined, last_login, roles) 
+  VALUES 
+  ('auth0|6079aecb0686bf00757dfa91', 'admin', 'admin@admin.com', 'admin', '2021-04-16 15:35:39.24', '2021-04-16 15:35:39.24', '{Admin}'); 
+
+INSERT INTO 
+  users 
+  (id, username, email, name, date_joined, last_login, roles) 
+  VALUES 
+  ('auth0|6079b8ac7bb43a006b5db7c4', 'commenter', 'commenter@commenter.com', 'commenter', '2021-04-16 15:35:39.24', '2021-04-16 15:35:39.24', '{Commenter}'); 
+
+INSERT INTO
+  issues
+  (title, text, created_at, user_id)
+  VALUES
+  ('Issue #1', 'This is issue #1', '2021-04-16 15:35:39.24', 'auth0|6079aecb0686bf00757dfa91');
+
+INSERT INTO
+  issues
+  (title, text, created_at, user_id)
+  VALUES
+  ('Issue #2', 'This is issue #2', '2021-04-16 15:35:39.24', 'auth0|6079aecb0686bf00757dfa91');
+
+INSERT INTO
+  comments
+  (text, created_at, user_id, issue_id)
+  VALUES
+  ('This is a comment', '2021-04-16 15:35:39.24', 'auth0|6079aecb0686bf00757dfa91', 1);
+
+INSERT INTO
+  comments
+  (text, created_at, user_id, issue_id)
+  VALUES
+  ('This is a comment', '2021-04-16 15:35:39.24', 'auth0|6079b8ac7bb43a006b5db7c4', 1);
+
+INSERT INTO
+  comments
+  (text, created_at, user_id, issue_id)
+  VALUES
+  ('This is a comment', '2021-04-16 15:35:39.24', 'auth0|6079aecb0686bf00757dfa91', 2);
