@@ -354,44 +354,19 @@ def create_app(test_config=None):
     #----------------------------------------------------------------------------#
 
     @app.errorhandler(AuthError)
-    def authorization_failed(AuthError):
-        return jsonify({
-            'success': False,
-            'error': AuthError.status_code,
-            'message': AuthError.error
-        }), AuthError.status_code
-
-    @app.errorhandler(401)
-    def not_found(error):
-        return jsonify({
-            'success': False,
-            'error': 401,
-            'message': 'unauthorized'
-        }), 401
-
-    @app.errorhandler(404)
-    def not_found(error):
-        return jsonify({
-            'success': False,
-            'error': 404,
-            'message': 'resource not found'
-        }), 404
-
-    @app.errorhandler(422)
-    def unprocessable(error):
-        return jsonify({
-            "success": False,
-            "error": 422,
-            "message": "unprocessable"
-        }), 422
-
     @app.errorhandler(400)
-    def bad_request(error):
+    @app.errorhandler(401)
+    @app.errorhandler(403)
+    @app.errorhandler(404)
+    @app.errorhandler(405)
+    @app.errorhandler(422)
+    @app.errorhandler(500)
+    def error_handler(error):
         return jsonify({
             'success': False,
-            'error': 400,
-            'message': 'bad request'
-        }), 400
+            'error': error.code,
+            'message': error.description
+        }), error.code
 
     return app
 
