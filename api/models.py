@@ -43,7 +43,11 @@ class Issue(db.Model):
     user_id = Column(String, ForeignKey('users.id'), nullable=False)
 
     # Relationships
-    comments = db.relationship('Comment', backref='issue')
+    comments = db.relationship(
+        'Comment',
+        backref='issue',
+        cascade='all, delete'
+    )
 
     def __repr__(self):
         return f'<Issue #{self.id}: {self.title}>'
@@ -141,8 +145,16 @@ class User(db.Model):
     roles = Column(ARRAY(String(100)))
 
     # relationships
-    issues = db.relationship('Issue', backref='user')
-    comments = db.relationship('Comment', backref='user')
+    issues = db.relationship(
+        'Issue',
+        backref='user',
+        cascade='all, delete'
+    )
+    comments = db.relationship(
+        'Comment',
+        backref='user',
+        cascade='all, delete'
+    )
 
     def __repr__(self):
         return f'<User {self.username}>'
