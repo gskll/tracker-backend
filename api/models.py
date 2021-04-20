@@ -45,7 +45,7 @@ class Issue(db.Model):
     # Relationships
     comments = db.relationship(
         'Comment',
-        backref='issue',
+        backref='issue_id',
         cascade='all, delete'
     )
 
@@ -137,27 +137,27 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(String, primary_key=True)
-    username = Column(String(100))
+    nickname = Column(String(100))
     name = Column(String(200))
     email = Column(String(320), nullable=False)
-    date_joined = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, nullable=False)
     last_login = Column(DateTime, nullable=False)
     roles = Column(ARRAY(String(100)))
 
     # relationships
     issues = db.relationship(
         'Issue',
-        backref='user',
+        backref='user_id',
         cascade='all, delete'
     )
     comments = db.relationship(
         'Comment',
-        backref='user',
+        backref='user_id',
         cascade='all, delete'
     )
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<User {self.nickname}>'
 
     def insert(self):
         db.session.add(self)
@@ -178,7 +178,7 @@ class User(db.Model):
     def format_short(self):
         return {
             'id': self.id,
-            'username': self.username,
+            'nickname': self.nickname,
             'name': self.name,
             'roles': self.roles
         }

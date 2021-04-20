@@ -1,12 +1,12 @@
 INSERT INTO 
   users 
-  (id, username, email, name, date_joined, last_login, roles) 
+  (id, nickname, email, name, created_at, last_login, roles) 
   VALUES 
   ('auth0|6079aecb0686bf00757dfa91', 'admin', 'admin@admin.com', 'admin', '2021-04-16 15:35:39.24', '2021-04-16 15:35:39.24', '{Admin}'); 
 
 INSERT INTO 
   users 
-  (id, username, email, name, date_joined, last_login, roles) 
+  (id, nickname, email, name, created_at, last_login, roles) 
   VALUES 
   ('auth0|6079b8ac7bb43a006b5db7c4', 'commenter', 'commenter@commenter.com', 'commenter', '2021-04-16 15:35:39.24', '2021-04-16 15:35:39.24', '{Commenter}'); 
 
