@@ -149,6 +149,21 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.nickname}>'
 
+    # __getitem__ to iterate in PATCH /users endpoint
+    # return None if key not found instead of raising KeyError
+    def __getitem__(self, key):
+        if key in self.__dict__:
+            return self.__dict__[key]
+        else:
+            return None
+
+    # __setitem__ to iterate in PATCH /users endpoint
+    def __setitem__(self, key, value):
+        if key in self.__dict__:
+            setattr(self, key, value)
+        else:
+            raise KeyError(key)
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
