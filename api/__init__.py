@@ -31,23 +31,66 @@ def create_app(test_config=None):
     #
     #----------------------------------------------------------------------------#
 
+    # TODO: secure /users endpoint??
+        # change to /login endpoint and check on login
+        #    if user doesn't exist: insert
+        #    if user exists: update roles, name, username, last login
+        #    @requires_auth
+        #    split into two endpoints: save_new_user, check_user_info
+    # TODO: populate heroku db with users/info
+
     #----------------------------------------------------------------------------#
-    #  POST /users
+    #  PATCH /users
+    #    it should only be called from the Auth0 authentication rule, or localhost:5000 for testing
     #    it should be a public endpoint
-    #    it should create a new row in the Users table
+    #    it should update a row in the Users table with any new information
     #  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
     #    or appropriate status code indicating reason for failure
     #----------------------------------------------------------------------------#
 
-    # TODO: secure /users endpoint??
-    # TODO: add separate test suite
-    '''
-  Includes at least one test for expected success and error behavior for each endpoint using the unittest library
-  Includes tests demonstrating role-based access control, at least two per role.
-  '''
+    @app.route('/users', methods=['PATCH'])
+    def update_user():
+        print(request.environ)
+        body = request.get_json()
+
+        user_dict = body.get('user')
+
+        if user_dict is not None:
+            auth_id = user_dict.get('user_id')
+            user = User.query.filter_by(auth_id=auth_id).one_or_none()
+
+            for field in user_dict:
+                if user[field] and user[field] != user_dict[field]:
+                    user[field] = user_dict[field]
+
+        new_roles = body.get('roles')
+
+        if new_roles is not None:
+            if user.roles != new_roles:
+                user.roles = new_roles
+
+        try:
+            user.update()
+        except Exception as e:
+            print('PATCH /users EXCEPTION >>> ', e)
+            abort(422)
+        else:
+            return jsonify({
+                'success': True,
+                'user': user.format_short()
+            })
+
+#----------------------------------------------------------------------------#
+    #  POST /users
+    #    it should only be called from the Auth0 authentication rule, or localhost:5000 for testing
+    #    it should be a public endpoint
+    #    it should add a row in the Users table
+    #  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
+    #    or appropriate status code indicating reason for failure
+#----------------------------------------------------------------------------#
 
     @app.route('/users', methods=['POST'])
-    def post_users():
+    def add_user():
         body = request.get_json()
 
         for field in body.values():
@@ -55,25 +98,25 @@ def create_app(test_config=None):
                 abort(400)
 
         user_dict = body.get('user')
-        user_id = user_dict.get('user_id')
+        auth_id = user_dict.get('user_id')
 
-        if not user_id:
+        if not auth_id:
             print('400: no user_id provided')
             abort(400)
 
-        user_exists = User.query.get(user_id)
+        user_exists = User.query.filter_by(auth_id=auth_id).one_or_none()
 
         if user_exists:
             print('422: user already exists')
             abort(422)
 
         user = User(
-            id=user_id,
-            username=user_dict.get('nickname'),
+            auth_id=auth_id,
+            nickname=user_dict.get('nickname'),
             name=user_dict.get('name'),
             email=user_dict.get('email'),
-            date_joined=user_dict.get('created_at'),
-            last_login=user_dict.get('created_at'),
+            created_at=user_dict.get('created_at'),
+            last_login=user_dict.get('last_login'),
             roles=body.get('roles')
         )
 
@@ -154,7 +197,7 @@ def create_app(test_config=None):
             title=body.get('title'),
             text=body.get('text'),
             created_at=datetime.now(),
-            user_id=auth_payload['sub']
+            user_id=body.get('user_id')
         )
 
         try:
@@ -189,7 +232,7 @@ def create_app(test_config=None):
         comment = Comment(
             text=body.get('text'),
             created_at=datetime.now(),
-            user_id=auth_payload['sub'],
+            user_id=body.get('user_id'),
             issue_id=body.get('issue_id')
         )
 
@@ -360,7 +403,6 @@ def create_app(test_config=None):
     @app.errorhandler(404)
     @app.errorhandler(405)
     @app.errorhandler(422)
-    @app.errorhandler(500)
     def error_handler(error):
         return jsonify({
             'success': False,
