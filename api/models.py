@@ -137,7 +137,8 @@ class Issue(db.Model):
 class User(db.Model):
     __tablename__ = 'users'
 
-    id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    auth_id = Column(String, nullable=False)
     nickname = Column(String(100))
     name = Column(String(200))
     email = Column(String(320), nullable=False)
