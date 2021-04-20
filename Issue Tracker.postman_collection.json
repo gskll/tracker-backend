@@ -41,7 +41,67 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:02:20 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "493"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issues\": [\n        {\n            \"closed_at\": \"04/20/2021, 15:00:04\",\n            \"created_at\": \"04/20/2021, 14:58:27\",\n            \"id\": 1,\n            \"last_modified\": \"04/20/2021, 15:00:04\",\n            \"open\": false,\n            \"text\": \"This is an issue\",\n            \"title\": \"Issue 1 - Closed\",\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"admin\",\n                \"nickname\": \"admin\",\n                \"roles\": [\n                    \"Admin\"\n                ]\n            }\n        },\n        {\n            \"closed_at\": null,\n            \"created_at\": \"04/20/2021, 14:59:04\",\n            \"id\": 2,\n            \"last_modified\": null,\n            \"open\": true,\n            \"text\": \"This is another issue\",\n            \"title\": \"Issue 2\",\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"admin\",\n                \"nickname\": \"admin\",\n                \"roles\": [\n                    \"Admin\"\n                ]\n            }\n        }\n    ],\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -73,7 +133,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"1"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:02:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues",
@@ -96,7 +217,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 100,\n    \"title\": \"test100\",\n    \"text\": \"text\",\n    \"created_at\": \"2021-04-16 16:17:48.425\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\"\n}",
+							"raw": "{\n\n    \"title\": \"Issue 1\",\n    \"text\": \"This is an issue\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,7 +234,76 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"title\": \"Issue 1\",\n    \"text\": \"This is an issue\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/issues",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:02:41 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments",
@@ -154,7 +344,77 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 100,\n    \"text\": \"text2\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\",\n    \"issue_id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{host}}/comments",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:02:47 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -195,7 +455,77 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Edited2\",\n    \"open\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/issues/100",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"100"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:02:51 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments/<id>",
@@ -236,7 +566,77 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments/<id>",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"text\": \"edited comment text\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/comments/100",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments",
+										"100"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:02:57 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -268,7 +668,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues/100",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"100"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:03:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments/<id>",
@@ -299,7 +760,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments/<id>",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/comments/100",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments",
+										"100"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:03:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 401,\n    \"message\": {\n        \"code\": \"authorization_header_missing\",\n        \"description\": \"Authorization header is expected.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/users",
@@ -326,7 +848,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"user_id\": \"test\",\n        \"username\": \"test\",\n        \"email\": \"test@test.com\",\n        \"created_at\": \"2021-04-16 15:35:39.24\",\n        \"name\": \"test\"\n    },\n    \"roles\": \"{test}\"\n}",
+							"raw": "{\n  \"user\": {\n    \"email\": \"admin@tracker.com\",\n    \"name\": \"admin@tracker.com\",\n    \"nickname\": \"admin\",\n    \"picture\": \"https://s.gravatar.com/avatar/9b081bd0629a5c70b1d58ce44b8d38de?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fad.png\",\n    \"user_metadata\": {},\n    \"app_metadata\": {\n      \"already_saved\": false\n    },\n    \"last_ip\": \"83.78.115.155\",\n    \"last_login\": \"2021-04-19T22:32:09.016Z\",\n    \"logins_count\": 14,\n    \"blocked_for\": [],\n    \"guardian_authenticators\": [],\n    \"created_at\": \"2021-04-16T15:35:39.240Z\",\n    \"email_verified\": false,\n    \"identities\": [{\n      \"connection\": \"Username-Password-Authentication\",\n      \"provider\": \"auth0\",\n      \"user_id\": \"6079aecb0686bf00757dfa91\",\n      \"isSocial\": false\n    }],\n    \"updated_at\": \"2021-04-19T22:33:48.297Z\",\n    \"user_id\": \"test_user_id\"\n  },\n  \"roles\": [\n      \"Admin\"\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,16 +856,186 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/users",
+							"raw": "localhost:5000/users",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
+							"port": "5000",
 							"path": [
 								"users"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/users",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user\": {\n    \"email\": \"admin@tracker.com\",\n    \"name\": \"admin@tracker.com\",\n    \"nickname\": \"admin\",\n    \"picture\": \"https://s.gravatar.com/avatar/9b081bd0629a5c70b1d58ce44b8d38de?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fad.png\",\n    \"user_metadata\": {},\n    \"app_metadata\": {\n      \"already_saved\": false\n    },\n    \"last_ip\": \"83.78.115.155\",\n    \"last_login\": \"2021-04-19T22:32:09.016Z\",\n    \"logins_count\": 14,\n    \"blocked_for\": [],\n    \"guardian_authenticators\": [],\n    \"created_at\": \"2021-04-16T15:35:39.240Z\",\n    \"email_verified\": false,\n    \"identities\": [{\n      \"connection\": \"Username-Password-Authentication\",\n      \"provider\": \"auth0\",\n      \"user_id\": \"6079aecb0686bf00757dfa91\",\n      \"isSocial\": false\n    }],\n    \"updated_at\": \"2021-04-19T22:33:48.297Z\",\n    \"user_id\": \"test_user_id\"\n  },\n  \"roles\": [\n      \"Admin\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/users",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.2 Python/3.7.10"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:03:28 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"user\": {\n        \"id\": 2,\n        \"name\": \"admin@tracker.com\",\n        \"nickname\": \"admin\",\n        \"roles\": [\n            \"Admin\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "/users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains user object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": {\n    \"email\": \"admin@tracker.com\",\n    \"name\": \"admin@tracker.com\",\n    \"nickname\": \"edited2\",\n    \"picture\": \"https://s.gravatar.com/avatar/9b081bd0629a5c70b1d58ce44b8d38de?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fad.png\",\n    \"user_metadata\": {},\n    \"app_metadata\": {\n      \"already_saved\": false\n    },\n    \"last_ip\": \"83.78.115.155\",\n    \"last_login\": \"2021-04-19T22:32:09.016Z\",\n    \"logins_count\": 14,\n    \"blocked_for\": [],\n    \"guardian_authenticators\": [],\n    \"created_at\": \"2021-04-16T15:35:39.240Z\",\n    \"email_verified\": false,\n    \"identities\": [{\n      \"connection\": \"Username-Password-Authentication\",\n      \"provider\": \"auth0\",\n      \"user_id\": \"6079aecb0686bf00757dfa91\",\n      \"isSocial\": false\n    }],\n    \"updated_at\": \"2021-04-19T22:33:48.297Z\",\n    \"user_id\": \"test_user_id\"\n  },\n  \"roles\": [\n      \"Admin\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "/users",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user\": {\n    \"email\": \"admin@tracker.com\",\n    \"name\": \"admin@tracker.com\",\n    \"nickname\": \"edited2\",\n    \"picture\": \"https://s.gravatar.com/avatar/9b081bd0629a5c70b1d58ce44b8d38de?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fad.png\",\n    \"user_metadata\": {},\n    \"app_metadata\": {\n      \"already_saved\": false\n    },\n    \"last_ip\": \"83.78.115.155\",\n    \"last_login\": \"2021-04-19T22:32:09.016Z\",\n    \"logins_count\": 14,\n    \"blocked_for\": [],\n    \"guardian_authenticators\": [],\n    \"created_at\": \"2021-04-16T15:35:39.240Z\",\n    \"email_verified\": false,\n    \"identities\": [{\n      \"connection\": \"Username-Password-Authentication\",\n      \"provider\": \"auth0\",\n      \"user_id\": \"6079aecb0686bf00757dfa91\",\n      \"isSocial\": false\n    }],\n    \"updated_at\": \"2021-04-19T22:33:48.297Z\",\n    \"user_id\": \"test_user_id\"\n  },\n  \"roles\": [\n      \"Admin\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/users",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "99"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.2 Python/3.7.10"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:03:54 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"user\": {\n        \"id\": 2,\n        \"name\": \"admin@tracker.com\",\n        \"nickname\": \"edited2\",\n        \"roles\": [\n            \"Admin\"\n        ]\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -383,7 +1075,67 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:04:20 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "493"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issues\": [\n        {\n            \"closed_at\": \"04/20/2021, 15:00:04\",\n            \"created_at\": \"04/20/2021, 14:58:27\",\n            \"id\": 1,\n            \"last_modified\": \"04/20/2021, 15:00:04\",\n            \"open\": false,\n            \"text\": \"This is an issue\",\n            \"title\": \"Issue 1 - Closed\",\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"admin\",\n                \"nickname\": \"admin\",\n                \"roles\": [\n                    \"Admin\"\n                ]\n            }\n        },\n        {\n            \"closed_at\": null,\n            \"created_at\": \"04/20/2021, 14:59:04\",\n            \"id\": 2,\n            \"last_modified\": null,\n            \"open\": true,\n            \"text\": \"This is another issue\",\n            \"title\": \"Issue 2\",\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"admin\",\n                \"nickname\": \"admin\",\n                \"roles\": [\n                    \"Admin\"\n                ]\n            }\n        }\n    ],\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -419,7 +1171,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:04:33 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue\": {\n        \"closed_at\": \"04/20/2021, 15:00:04\",\n        \"comments\": {\n            \"1\": {\n                \"created_at\": \"04/20/2021, 14:59:23\",\n                \"id\": 1,\n                \"issue_id\": 1,\n                \"last_modified\": null,\n                \"text\": \"This is a comment\",\n                \"user_id\": 5\n            }\n        },\n        \"created_at\": \"04/20/2021, 14:58:27\",\n        \"id\": 1,\n        \"last_modified\": \"04/20/2021, 15:00:04\",\n        \"open\": false,\n        \"text\": \"This is an issue\",\n        \"title\": \"Issue 1 - Closed\",\n        \"user\": {\n            \"id\": 5,\n            \"name\": \"admin\",\n            \"nickname\": \"admin\",\n            \"roles\": [\n                \"Admin\"\n            ]\n        }\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues",
@@ -446,7 +1259,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 100,\n    \"title\": \"test100\",\n    \"text\": \"text\",\n    \"created_at\": \"2021-04-16 16:17:48.425\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\"\n}",
+							"raw": "{\n    \"title\": \"Issue 4\",\n    \"text\": \"This is another issue\",\n    \"user_id\": 5\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -463,7 +1276,76 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Issue 3\",\n    \"text\": \"This is another issue\",\n    \"user_id\": 5\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/issues",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:30:43 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "237"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue\": {\n        \"closed_at\": null,\n        \"created_at\": \"04/20/2021, 18:30:43\",\n        \"id\": 4,\n        \"last_modified\": null,\n        \"open\": true,\n        \"text\": \"This is another issue\",\n        \"title\": \"Issue 3\",\n        \"user\": {\n            \"id\": 5,\n            \"name\": \"admin\",\n            \"nickname\": \"admin\",\n            \"roles\": [\n                \"Admin\"\n            ]\n        }\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments",
@@ -496,7 +1378,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 100,\n    \"text\": \"text100\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\",\n    \"issue_id\": 1\n}"
+							"raw": "{\n    \"text\": \"This is a comment\",\n    \"issue_id\": 4,\n    \"user_id\": 5\n}"
 						},
 						"url": {
 							"raw": "{{host}}/comments",
@@ -508,7 +1390,77 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"text\": \"This is a comment\",\n    \"issue_id\": 4,\n    \"user_id\": 5\n}"
+								},
+								"url": {
+									"raw": "{{host}}/comments",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:32:12 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "145"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"comment\": {\n        \"created_at\": \"04/20/2021, 18:32:12\",\n        \"id\": 7,\n        \"issue_id\": 4,\n        \"last_modified\": null,\n        \"text\": \"This is a comment\",\n        \"user_id\": 5\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -535,7 +1487,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Edited2\",\n    \"open\": false\n}",
+							"raw": "{\n    \"title\": \"Issue 1 - Closed\",\n    \"open\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -543,17 +1495,87 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/issues/5",
+							"raw": "{{host}}/issues/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"issues",
-								"5"
+								"1"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Issue 1 - Closed\",\n    \"open\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/issues/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:32:17 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "278"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue\": {\n        \"closed_at\": \"04/20/2021, 18:32:17\",\n        \"created_at\": \"04/20/2021, 14:58:27\",\n        \"id\": 1,\n        \"last_modified\": \"04/20/2021, 18:32:17\",\n        \"open\": false,\n        \"text\": \"This is an issue\",\n        \"title\": \"Issue 1 - Closed\",\n        \"user\": {\n            \"id\": 5,\n            \"name\": \"admin\",\n            \"nickname\": \"admin\",\n            \"roles\": [\n                \"Admin\"\n            ]\n        }\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments/<id>",
@@ -588,17 +1610,87 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/comments/2",
+							"raw": "{{host}}/comments/3",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"comments",
-								"2"
+								"3"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments/<id>",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"text\": \"edited comment text\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/comments/3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:32:23 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "165"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"comment\": {\n        \"created_at\": \"04/20/2021, 14:59:34\",\n        \"id\": 3,\n        \"issue_id\": 2,\n        \"last_modified\": \"04/20/2021, 18:32:23\",\n        \"text\": \"edited comment text\",\n        \"user_id\": 6\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -619,17 +1711,78 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/issues/4",
+							"raw": "{{host}}/issues/2",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"issues",
-								"4"
+								"2"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:33:28 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"delete\": \"2\",\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments/<id>",
@@ -650,61 +1803,78 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/comments/3",
+							"raw": "{{host}}/comments/7",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"comments",
-								"3"
+								"7"
 							]
 						}
 					},
-					"response": []
-				},
-				{
-					"name": "/users",
-					"event": [
+					"response": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains user object\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.user).to.be.an('object')",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"user_id\": \"test\",\n        \"username\": \"test\",\n        \"email\": \"test@test.com\",\n        \"created_at\": \"2021-04-16 15:35:39.24\",\n        \"name\": \"test\"\n    },\n    \"roles\": \"{test}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "/comments/<id>",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/comments/7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments",
+										"7"
+									]
 								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/users",
-							"host": [
-								"{{host}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:34:06 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
 							],
-							"path": [
-								"users"
-							]
+							"cookie": [],
+							"body": "{\n    \"delete\": \"7\",\n    \"success\": true\n}"
 						}
-					},
-					"response": []
+					]
 				}
 			],
 			"auth": {
@@ -712,7 +1882,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndSaGRVdExpNzNxemFQdUFlcnFhSiJ9.eyJpc3MiOiJodHRwczovL2dza2xsLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDc5YWVjYjA2ODZiZjAwNzU3ZGZhOTEiLCJhdWQiOiJ0cmFja2VyIiwiaWF0IjoxNjE4NzU0ODkyLCJleHAiOjE2MTg4NDEyOTIsImF6cCI6ImhMR1hxRmVIVjY5WUpwb3FRY0FMRlhvUklGOVBHdk0wIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6Y29tbWVudHMiLCJkZWxldGU6aXNzdWVzIiwiZ2V0Omlzc3VlIiwicGF0Y2g6Y29tbWVudHMiLCJwYXRjaDppc3N1ZXMiLCJwb3N0OmNvbW1lbnRzIiwicG9zdDppc3N1ZXMiXX0.FWGJoQi3KRNGPRIDBIbU3bHaBorJ9xACdLhBNvqqGjtpxjegoE0QYz9F0DWZrymiBs8iY_Pg5EbABtypjqeaRx0d2oVyal9NoDzTV-_aXDYfjTw1eGFSB5nlUIbmIiB5rrAhZ9_plx0tmQrwtCNMO5p5cmIXsrtutvXhVxepQYMe5-gGFIKZk4OtcBNPbiTtwY25N0V5f9WG5JSZt_3CnuRjst7K_56Kox4yShkgECQVH4aiOxd4FTIql3EgmLuFuvIQ6iDY_I0f2hbQDUs2s5q3QX16R1exY16DYXj_ROjwTkfRBlh4sKpJGPRZOqMTTQR2jkWMogqDxT54RtErTw",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndSaGRVdExpNzNxemFQdUFlcnFhSiJ9.eyJpc3MiOiJodHRwczovL2dza2xsLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDc5YWVjYjA2ODZiZjAwNzU3ZGZhOTEiLCJhdWQiOiJ0cmFja2VyIiwiaWF0IjoxNjE4OTQ0MTcwLCJleHAiOjE2MTkwMzA1NzAsImF6cCI6ImhMR1hxRmVIVjY5WUpwb3FRY0FMRlhvUklGOVBHdk0wIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6Y29tbWVudHMiLCJkZWxldGU6aXNzdWVzIiwiZ2V0Omlzc3VlIiwicGF0Y2g6Y29tbWVudHMiLCJwYXRjaDppc3N1ZXMiLCJwb3N0OmNvbW1lbnRzIiwicG9zdDppc3N1ZXMiXX0.BvZR9SxsJd-ytEYJvrw_xaVHE02Y881GWQbB_dvc7As9YuyUm-EsqbBpbW0ekx660c2FYQQMfc9VtWpN16XtLRjRWikvQOWDTiCse9zYEY3DGSUC7JDOYAoy0e9biNcTzjPc3YOoQNtthvQPX4IDaOJ31xDmYJzPKa-bR2jqJPaBwOsiRBxS8-6pA2UR4nRjkTd1RwmUQfLuOBttrvRpoDb9kZ7lYHHTvGxHX5zjKB63rbeJjBfvVkYSSitf3XAzkGlxO21XV1lb2JsTvmcs41d3KJX9WmfGeTgkDnjFk2JSLOlN9FNdi4AH8qK3Y2dZoQTGDTx5JAj500eS_ctInA",
 						"type": "string"
 					}
 				]
@@ -774,7 +1944,67 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:36:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "493"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issues\": [\n        {\n            \"closed_at\": \"04/20/2021, 18:32:17\",\n            \"created_at\": \"04/20/2021, 14:58:27\",\n            \"id\": 1,\n            \"last_modified\": \"04/20/2021, 18:32:17\",\n            \"open\": false,\n            \"text\": \"This is an issue\",\n            \"title\": \"Issue 1 - Closed\",\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"admin\",\n                \"nickname\": \"admin\",\n                \"roles\": [\n                    \"Admin\"\n                ]\n            }\n        },\n        {\n            \"closed_at\": null,\n            \"created_at\": \"04/20/2021, 18:30:43\",\n            \"id\": 4,\n            \"last_modified\": null,\n            \"open\": true,\n            \"text\": \"This is another issue\",\n            \"title\": \"Issue 3\",\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"admin\",\n                \"nickname\": \"admin\",\n                \"roles\": [\n                    \"Admin\"\n                ]\n            }\n        }\n    ],\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -810,7 +2040,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:36:54 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue\": {\n        \"closed_at\": \"04/20/2021, 18:32:17\",\n        \"comments\": {\n            \"1\": {\n                \"created_at\": \"04/20/2021, 14:59:23\",\n                \"id\": 1,\n                \"issue_id\": 1,\n                \"last_modified\": null,\n                \"text\": \"This is a comment\",\n                \"user_id\": 5\n            }\n        },\n        \"created_at\": \"04/20/2021, 14:58:27\",\n        \"id\": 1,\n        \"last_modified\": \"04/20/2021, 18:32:17\",\n        \"open\": false,\n        \"text\": \"This is an issue\",\n        \"title\": \"Issue 1 - Closed\",\n        \"user\": {\n            \"id\": 5,\n            \"name\": \"admin\",\n            \"nickname\": \"admin\",\n            \"roles\": [\n                \"Admin\"\n            ]\n        }\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues",
@@ -849,7 +2140,76 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 100,\n    \"title\": \"test100\",\n    \"text\": \"text\",\n    \"created_at\": \"2021-04-16 16:17:48.425\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/issues",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"status": "FORBIDDEN",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:37:00 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 403,\n    \"message\": {\n        \"code\": \"unauthorized\",\n        \"description\": \"Permission not found.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments",
@@ -882,7 +2242,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 100,\n    \"text\": \"text100\",\n    \"user_id\": \"auth0|6079aecb0686bf00757dfa91\",\n    \"issue_id\": 1\n}"
+							"raw": "{\n    \"text\": \"text100\",\n    \"user_id\": 5,\n    \"issue_id\": 1\n}"
 						},
 						"url": {
 							"raw": "{{host}}/comments",
@@ -894,7 +2254,77 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"text\": \"text100\",\n    \"user_id\": 5,\n    \"issue_id\": 1\n}"
+								},
+								"url": {
+									"raw": "{{host}}/comments",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:37:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "135"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"comment\": {\n        \"created_at\": \"04/20/2021, 18:37:21\",\n        \"id\": 8,\n        \"issue_id\": 1,\n        \"last_modified\": null,\n        \"text\": \"text100\",\n        \"user_id\": 5\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -934,7 +2364,77 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Edited2\",\n    \"open\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/issues/5",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"5"
+									]
+								}
+							},
+							"status": "FORBIDDEN",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:37:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 403,\n    \"message\": {\n        \"code\": \"unauthorized\",\n        \"description\": \"Permission not found.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments/<id>",
@@ -969,17 +2469,87 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/comments/2",
+							"raw": "{{host}}/comments/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"comments",
-								"2"
+								"1"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/comments/<id>",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"text\": \"edited comment text\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/comments/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:38:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "165"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"comment\": {\n        \"created_at\": \"04/20/2021, 14:59:23\",\n        \"id\": 1,\n        \"issue_id\": 1,\n        \"last_modified\": \"04/20/2021, 18:38:02\",\n        \"text\": \"edited comment text\",\n        \"user_id\": 5\n    },\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "/issues/<id>",
@@ -988,8 +2558,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1010,7 +2580,68 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "/issues/<id>",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/issues/4",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"issues",
+										"4"
+									]
+								}
+							},
+							"status": "FORBIDDEN",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:38:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 403,\n    \"message\": {\n        \"code\": \"unauthorized\",\n        \"description\": \"Permission not found.\"\n    },\n    \"success\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "/comments/<id>",
@@ -1031,61 +2662,78 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/comments/5",
+							"raw": "{{host}}/comments/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"comments",
-								"5"
+								"1"
 							]
 						}
 					},
-					"response": []
-				},
-				{
-					"name": "/users",
-					"event": [
+					"response": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains user object\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.user).to.be.an('object')",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"user_id\": \"test\",\n        \"username\": \"test\",\n        \"email\": \"test@test.com\",\n        \"created_at\": \"2021-04-16 15:35:39.24\",\n        \"name\": \"test\"\n    },\n    \"roles\": \"{test}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "/comments/<id>",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/comments/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"comments",
+										"1"
+									]
 								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/users",
-							"host": [
-								"{{host}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Apr 2021 18:38:22 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PATCH,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
 							],
-							"path": [
-								"users"
-							]
+							"cookie": [],
+							"body": "{\n    \"delete\": \"1\",\n    \"success\": true\n}"
 						}
-					},
-					"response": []
+					]
 				}
 			],
 			"auth": {
@@ -1093,7 +2741,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndSaGRVdExpNzNxemFQdUFlcnFhSiJ9.eyJpc3MiOiJodHRwczovL2dza2xsLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDc5YjhhYzdiYjQzYTAwNmI1ZGI3YzQiLCJhdWQiOiJ0cmFja2VyIiwiaWF0IjoxNjE4NzU1MjAwLCJleHAiOjE2MTg4NDE2MDAsImF6cCI6ImhMR1hxRmVIVjY5WUpwb3FRY0FMRlhvUklGOVBHdk0wIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6Y29tbWVudHMiLCJnZXQ6aXNzdWUiLCJwYXRjaDpjb21tZW50cyIsInBvc3Q6Y29tbWVudHMiXX0.UeiuGvUV8QlieK42eGl6Vl6w2tRK8_GQuqrtXzxoYFkEk5AUGc7ltYvVRPk57iUI_vk626NrRYS6ZUtmIwa_zpNG9ZJ3GMEKXi1Ly_bSSfHlIxuv24mxtkGBphpJBoosoOjTk2TnxWwvmq9TP653Gcs7f8621LcBziVljQOGhRAwHOZ6UhKM_GdOJBz8USbF_bW_Z1wJbPtQhb53DA5K4twDm7tLijkvsQrwpA52sAytPxvsdzJ9iPQj6cVeX1hyQOGVvtlBrfyathsSb7KVkjTvBsVvQSIAWzGHpcGx-1MjWRsrHU_dsq4ghFPKV1-PWB4I92oN447V4fj_LOSKIQ",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndSaGRVdExpNzNxemFQdUFlcnFhSiJ9.eyJpc3MiOiJodHRwczovL2dza2xsLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDc5YjhhYzdiYjQzYTAwNmI1ZGI3YzQiLCJhdWQiOiJ0cmFja2VyIiwiaWF0IjoxNjE4OTQzNzE5LCJleHAiOjE2MTkwMzAxMTksImF6cCI6ImhMR1hxRmVIVjY5WUpwb3FRY0FMRlhvUklGOVBHdk0wIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6Y29tbWVudHMiLCJnZXQ6aXNzdWUiLCJwYXRjaDpjb21tZW50cyIsInBvc3Q6Y29tbWVudHMiXX0.Ney6OVay4MT0nLEiGlYc6k2K8x7uvCjpcJVggPy75sfquucoCllY0mLefjKEFtTl3_8gJxEz7GgoTZjJpI8tzjZQqS9PdJDo-mZkxc2i1j8nbz9mtAaq4zmmDf7PpjyZHAY0UqJJ1-i1wtfvlXuJb17DIGZ0Egg8RemASicC_UKttx2fPac7jCKdQlYSg5VJWOnOwnC53P2vMrhjnSM10hhfrJtpcYmSTNXI_E3sHJPkjLEpkdRi5_OojzcFbVdF0q6wgK2tGcgX1JuBzx7LY_s9hCTEjybpO7r3ZtcN3-da9PhuGLPbJQyypWDr880wpCgTMbZUCrOjA2iZTxgKpA",
 						"type": "string"
 					}
 				]
@@ -1146,8 +2794,9 @@
 			"value": ""
 		},
 		{
-			"key": "localhost",
-			"value": ""
+			"key": "host",
+			"value": "",
+			"disabled": true
 		}
 	]
 }
