@@ -68,6 +68,8 @@ def create_app(test_config=None):
         if user.roles != new_roles:
             user.roles = new_roles
 
+        user.last_login = datetime.now()
+
         try:
             user.update()
         except Exception as e:
@@ -115,7 +117,7 @@ def create_app(test_config=None):
             name=user_dict.get('name'),
             email=user_dict.get('email'),
             created_at=user_dict.get('created_at'),
-            last_login=user_dict.get('last_login'),
+            last_login=user_dict.get('created_at'),
             roles=body.get('roles')
         )
 
