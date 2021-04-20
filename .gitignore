@@ -7,6 +7,7 @@
 
 **/__pycache__/*
 __pycache__/
+*.pyc
 
 # testing
 /coverage
@@ -96,3 +97,4 @@ tags
 .vercel
 src/auth/__pycache__/__init__.cpython-37.pyc
 src/auth/__pycache__/auth.cpython-37.pyc
+migrations/__pycache__/env.cpython-37.pyc

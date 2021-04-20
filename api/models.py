@@ -40,7 +40,7 @@ class Issue(db.Model):
     last_modified = Column(DateTime, nullable=True)
 
     # Foreign key
-    user_id = Column(String, ForeignKey('users.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     # Relationships
     user = db.relationship(
@@ -208,7 +208,7 @@ class Comment(db.Model):
     last_modified = Column(DateTime, nullable=True)
 
     # Foreign keys
-    user_id = Column(String, ForeignKey('users.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     issue_id = Column(Integer, ForeignKey('issues.id'), nullable=False)
 
     # relationships
