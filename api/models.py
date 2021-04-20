@@ -45,8 +45,7 @@ class Issue(db.Model):
     # Relationships
     user = db.relationship(
         'User',
-        backref='issues',
-        cascade='all, delete',
+        backref=db.backref('issues', cascade='all, delete'),
         foreign_keys=[user_id]
     )
 
@@ -214,14 +213,12 @@ class Comment(db.Model):
     # relationships
     user = db.relationship(
         'User',
-        backref='comments',
-        cascade='all, delete',
+        backref=db.backref('comments', cascade='all, delete'),
         foreign_keys=[user_id]
     )
     issue = db.relationship(
         'Issue',
-        backref='comments',
-        cascade='all, delete',
+        backref=db.backref('comments', cascade='all, delete'),
         foreign_keys=[issue_id]
     )
 

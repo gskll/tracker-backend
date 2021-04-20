@@ -13,10 +13,10 @@ from api.models import db, setup_db, Issue, Comment, User
 
 test_auth_headers = {
     "admin": {
-        'Authorization': os.environ.get('ADMIN_TOKEN_TEST')
+        'Authorization': f'Bearer {os.environ.get("ADMIN_TOKEN_TEST")}'
     },
     "commenter": {
-        'Authorization': os.environ.get('COMMENTER_TOKEN_TEST')
+        'Authorization': f'Bearer {os.environ.get("COMMENTER_TOKEN_TEST")}'
     }
 }
 
@@ -29,27 +29,26 @@ def insert_db_test_records():
     datetime = '2021-04-16 00:00:00.000'
 
     admin = User(
-        id="1",
-        username='testadmin',
+        auth_id="auth|string",
+        nickname='testadmin',
         name='admin',
         email='admin@admin.com',
-        date_joined=datetime,
+        created_at=datetime,
         last_login=datetime,
         roles=['Admin']
     )
 
     commenter = User(
-        id="2",
-        username='testcommenter',
+        auth_id="auth|string2",
+        nickname='testcommenter',
         name='commenter',
         email='commenter@commenter.com',
-        date_joined=datetime,
+        created_at=datetime,
         last_login=datetime,
         roles=['Commenter']
     )
 
     issue = Issue(
-        id=2,
         title='issue',
         text='issue text',
         created_at=datetime,
@@ -57,11 +56,10 @@ def insert_db_test_records():
     )
 
     comment = Comment(
-        id=2,
         text='comment',
         created_at=datetime,
         user_id=1,
-        issue_id=2
+        issue_id=1
     )
 
     try:
@@ -98,6 +96,7 @@ class TrackerTestCase(unittest.TestCase):
                 "name": 'user',
                 "email": 'user@user.com',
                 "created_at": '2021-04-16 00:00:00.000',
+                "last_login": '2021-04-16 00:00:00.000'
             },
             "roles": ["Admin"]
         }
@@ -106,13 +105,13 @@ class TrackerTestCase(unittest.TestCase):
             "title": "test2",
             "text": "text",
             "created_at": "'2021-04-16 00:00:00.000'",
-            "user_id": "1"
+            "user_id": 1
         }
 
         self.test_comment_json = {
             "text": "test comment text",
-            "user_id": "1",
-            "issue_id": 2
+            "user_id": 1,
+            "issue_id": 1
         }
 
     def tearDown(self):
@@ -190,7 +189,7 @@ class TrackerTestCase(unittest.TestCase):
 
     def test_get_issue(self):
         res = self.client().get(
-            '/issues/2',
+            '/issues/1',
             headers=test_auth_headers['admin']
         )
         data = json.loads(res.data)
@@ -201,7 +200,7 @@ class TrackerTestCase(unittest.TestCase):
         self.assertEqual(data['issue']['title'], 'issue')
 
     def test_get_issue_invalid_permissions(self):
-        res = self.client().get('/issues/2')
+        res = self.client().get('/issues/1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -317,7 +316,7 @@ class TrackerTestCase(unittest.TestCase):
         self.test_issue_json['title'] = 'EDITED'
 
         res = self.client().patch(
-            '/issues/2',
+            '/issues/1',
             headers=test_auth_headers['admin'],
             json=self.test_issue_json
         )
@@ -332,7 +331,7 @@ class TrackerTestCase(unittest.TestCase):
         self.test_issue_json['title'] = 'EDITED'
 
         res = self.client().patch(
-            '/issues/2',
+            '/issues/1',
             headers=test_auth_headers['commenter'],
             json=self.test_issue_json
         )
@@ -364,7 +363,7 @@ class TrackerTestCase(unittest.TestCase):
         self.test_comment_json['text'] = 'EDITED'
 
         res = self.client().patch(
-            '/comments/2',
+            '/comments/1',
             headers=test_auth_headers['commenter'],
             json=self.test_comment_json
         )
@@ -379,7 +378,7 @@ class TrackerTestCase(unittest.TestCase):
         self.test_comment_json['text'] = 'EDITED'
 
         res = self.client().patch(
-            '/comments/2',
+            '/comments/1',
             json=self.test_comment_json
         )
         data = json.loads(res.data)
@@ -427,7 +426,7 @@ class TrackerTestCase(unittest.TestCase):
     def test_delete_comment(self):
         prev_comment_count = len(Comment.query.all())
         res = self.client().delete(
-            '/comments/2',
+            '/comments/1',
             headers=test_auth_headers['commenter'],
         )
         curr_comment_count = len(Comment.query.all())
@@ -436,7 +435,7 @@ class TrackerTestCase(unittest.TestCase):
         self.assertEqual(prev_comment_count - curr_comment_count, 1)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['delete'], '2')
+        self.assertEqual(data['delete'], '1')
 
     #----------------------------------------------------------------------------#
     # DELETE /issues Endpoint
@@ -466,19 +465,10 @@ class TrackerTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
 
     def test_delete_issue(self):
-        res = self.client().post(
-            '/issues',
-            headers=test_auth_headers['admin'],
-            json=self.test_issue_json
-        )
-        data = json.loads(res.data)
-
-        issue_id = data['issue']['id']
-
         prev_issue_count = len(Issue.query.all())
 
         res = self.client().delete(
-            f'/issues/{issue_id}',
+            '/issues/1',
             headers=test_auth_headers['admin'],
         )
 
@@ -488,7 +478,7 @@ class TrackerTestCase(unittest.TestCase):
         self.assertEqual(prev_issue_count - curr_issue_count, 1)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['delete'], str(issue_id))
+        self.assertEqual(data['delete'], '1')
 
 
 # From src directory, run 'python test_api.py' to start tests
