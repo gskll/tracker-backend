@@ -43,10 +43,11 @@ class Issue(db.Model):
     user_id = Column(String, ForeignKey('users.id'), nullable=False)
 
     # Relationships
-    comments = db.relationship(
-        'Comment',
-        backref='issue_id',
-        cascade='all, delete'
+    user = db.relationship(
+        'User',
+        backref='issues',
+        cascade='all, delete',
+        foreign_keys=[user_id]
     )
 
     def __repr__(self):
@@ -144,18 +145,6 @@ class User(db.Model):
     last_login = Column(DateTime, nullable=False)
     roles = Column(ARRAY(String(100)))
 
-    # relationships
-    issues = db.relationship(
-        'Issue',
-        backref='user_id',
-        cascade='all, delete'
-    )
-    comments = db.relationship(
-        'Comment',
-        backref='user_id',
-        cascade='all, delete'
-    )
-
     def __repr__(self):
         return f'<User {self.nickname}>'
 
@@ -205,6 +194,20 @@ class Comment(db.Model):
     # Foreign keys
     user_id = Column(String, ForeignKey('users.id'), nullable=False)
     issue_id = Column(Integer, ForeignKey('issues.id'), nullable=False)
+
+    # relationships
+    user = db.relationship(
+        'User',
+        backref='comments',
+        cascade='all, delete',
+        foreign_keys=[user_id]
+    )
+    issue = db.relationship(
+        'Issue',
+        backref='comments',
+        cascade='all, delete',
+        foreign_keys=[issue_id]
+    )
 
     def __repr__(self):
         return f'<Comment #{self.id} by {self.user} on issue {self.issue_id}>'
