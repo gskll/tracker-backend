@@ -32,66 +32,19 @@ def create_app(test_config=None):
     #----------------------------------------------------------------------------#
 
     #----------------------------------------------------------------------------#
-    #  PATCH /users
-    #    it should only be called from the Auth0 authentication rule, or localhost:5000 for testing
-    #    it should be a public endpoint
-    #    it should update a row in the Users table with any new information
-    #  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
-    #    or appropriate status code indicating reason for failure
-    #----------------------------------------------------------------------------#
-
-    @app.route('/users', methods=['PATCH'])
-    def update_user():
-        print(request.environ)
-        body = request.get_json()
-
-        user_dict = body.get('user')
-
-        if user_dict is None:
-            abort(422)
-
-        auth_id = user_dict.get('user_id')
-        user = User.query.filter_by(auth_id=auth_id).one_or_none()
-
-        if user is None:
-            abort(404)
-
-        for field in user_dict:
-            if user[field] and user[field] != user_dict[field]:
-                user[field] = user_dict[field]
-
-        new_roles = body.get('roles')
-
-        if new_roles is None:
-            abort(422)
-
-        if user.roles != new_roles:
-            user.roles = new_roles
-
-        user.last_login = datetime.now()
-
-        try:
-            user.update()
-        except Exception as e:
-            print('PATCH /users EXCEPTION >>> ', e)
-            abort(422)
-        else:
-            return jsonify({
-                'success': True,
-                'user': user.format_short()
-            })
-
-#----------------------------------------------------------------------------#
     #  POST /users
     #    it should only be called from the Auth0 authentication rule, or localhost:5000 for testing
     #    it should be a public endpoint
     #    it should add a row in the Users table
     #  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
     #    or appropriate status code indicating reason for failure
-#----------------------------------------------------------------------------#
+    #----------------------------------------------------------------------------#
 
     @app.route('/users', methods=['POST'])
     def add_user():
+        if request.environ.get('HTTP_HOST') != os.environ.get('ACCEPTED_HOST'):
+            abort(401)
+
         body = request.get_json()
 
         for field in body.values():
@@ -130,6 +83,58 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True,
                 'user': user.format_short(),
+            })
+
+    #----------------------------------------------------------------------------#
+    #  PATCH /users
+    #    it should only be called from the Auth0 authentication rule, or localhost:5000 for testing
+    #    it should be a public endpoint
+    #    it should update a row in the Users table with any new information
+    #  returns status code 200 and json {"success": True, "user": user} where user is the newly created user
+    #    or appropriate status code indicating reason for failure
+    #----------------------------------------------------------------------------#
+
+    @app.route('/users', methods=['PATCH'])
+    def update_user():
+        if request.environ.get('HTTP_HOST') != os.environ.get('ACCEPTED_HOST'):
+            abort(401)
+
+        body = request.get_json()
+
+        user_dict = body.get('user')
+
+        if user_dict is None:
+            abort(422)
+
+        auth_id = user_dict.get('user_id')
+        user = User.query.filter_by(auth_id=auth_id).one_or_none()
+
+        if user is None:
+            abort(404)
+
+        for field in user_dict:
+            if user[field] and user[field] != user_dict[field]:
+                user[field] = user_dict[field]
+
+        new_roles = body.get('roles')
+
+        if new_roles is None:
+            abort(422)
+
+        if user.roles != new_roles:
+            user.roles = new_roles
+
+        user.last_login = datetime.now()
+
+        try:
+            user.update()
+        except Exception as e:
+            print('PATCH /users EXCEPTION >>> ', e)
+            abort(422)
+        else:
+            return jsonify({
+                'success': True,
+                'user': user.format_short()
             })
 
     #----------------------------------------------------------------------------#
