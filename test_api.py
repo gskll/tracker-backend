@@ -145,7 +145,7 @@ class TrackerTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
 
     def test_add_user_already_exists(self):
-        res = self.client().post('/users', json=self.test_user_json)
+        self.test_user_json['user']['user_id'] = "auth|string"
 
         prev_user_count = len(User.query.all())
 
@@ -156,6 +156,39 @@ class TrackerTestCase(unittest.TestCase):
         curr_user_count = len(User.query.all())
 
         self.assertEqual(curr_user_count - prev_user_count, 0)
+        self.assertEqual(res.status_code, 422)
+        self.assertFalse(data['success'])
+
+    #----------------------------------------------------------------------------#
+    # PATCH /users Endpoint
+    #   - test_update_user: 200 - tests correctly updating a user
+    #   - test_update_user_no_user_dict: 422 - tests updating a user with incorrect json format
+    #----------------------------------------------------------------------------#
+
+    def test_update_user(self):
+        self.test_user_json['user']['nickname'] = 'EDITED'
+        self.test_user_json['user']['user_id'] = "auth|string"
+
+        res = self.client().patch(
+            '/users',
+            json=self.test_user_json
+        )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(data['user'])
+        self.assertEqual(data['user']['nickname'], 'EDITED')
+
+    def test_update_user_no_user_dict(self):
+        self.test_user_json['user'] = None
+
+        res = self.client().patch(
+            '/users',
+            json=self.test_user_json
+        )
+        data = json.loads(res.data)
+
         self.assertEqual(res.status_code, 422)
         self.assertFalse(data['success'])
 

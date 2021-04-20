@@ -31,14 +31,6 @@ def create_app(test_config=None):
     #
     #----------------------------------------------------------------------------#
 
-    # TODO: secure /users endpoint??
-        # change to /login endpoint and check on login
-        #    if user doesn't exist: insert
-        #    if user exists: update roles, name, username, last login
-        #    @requires_auth
-        #    split into two endpoints: save_new_user, check_user_info
-    # TODO: populate heroku db with users/info
-
     #----------------------------------------------------------------------------#
     #  PATCH /users
     #    it should only be called from the Auth0 authentication rule, or localhost:5000 for testing
@@ -55,19 +47,26 @@ def create_app(test_config=None):
 
         user_dict = body.get('user')
 
-        if user_dict is not None:
-            auth_id = user_dict.get('user_id')
-            user = User.query.filter_by(auth_id=auth_id).one_or_none()
+        if user_dict is None:
+            abort(422)
 
-            for field in user_dict:
-                if user[field] and user[field] != user_dict[field]:
-                    user[field] = user_dict[field]
+        auth_id = user_dict.get('user_id')
+        user = User.query.filter_by(auth_id=auth_id).one_or_none()
+
+        if user is None:
+            abort(404)
+
+        for field in user_dict:
+            if user[field] and user[field] != user_dict[field]:
+                user[field] = user_dict[field]
 
         new_roles = body.get('roles')
 
-        if new_roles is not None:
-            if user.roles != new_roles:
-                user.roles = new_roles
+        if new_roles is None:
+            abort(422)
+
+        if user.roles != new_roles:
+            user.roles = new_roles
 
         try:
             user.update()
